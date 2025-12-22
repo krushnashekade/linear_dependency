@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contributors - Linear Dependence Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .virtual-labs-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .virtual-labs-logo i {
+            font-size: 28px;
+            color: #3498db;
+        }
+
+        .virtual-labs-logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .virtual-labs-logo span {
+            color: #3498db;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .top-nav-btn:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        .top-nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .top-nav-btn i {
+            font-size: 16px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #3498db;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Contributors Container */
+        .contributors-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: #3498db;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e8f4fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+
+        .info-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* College Info */
+        .college-info {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .college-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .department {
+            font-size: 1.4rem;
+            color: #3498db;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .project-info {
+            color: #ecf0f1;
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+
+        /* Team Sections */
+        .team-section {
+            margin-bottom: 40px;
+        }
+
+        .team-title {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Contributor Cards Grid */
+        .contributors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .contributor-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s;
+            border-left: 5px solid #3498db;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contributor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .contributor-card.lead {
+            border-left-color: #2ecc71;
+        }
+
+        .contributor-card.guide {
+            border-left-color: #9b59b6;
+        }
+
+        .contributor-card.hod {
+            border-left-color: #f39c12;
+        }
+
+        .contributor-role {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-radius: 0 10px 0 10px;
+        }
+
+        .contributor-card.lead .contributor-role {
+            background: #2ecc71;
+        }
+
+        .contributor-card.guide .contributor-role {
+            background: #9b59b6;
+        }
+
+        .contributor-card.hod .contributor-role {
+            background: #f39c12;
+        }
+
+        .contributor-name {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .contributor-details {
+            margin: 15px 0;
+        }
+
+        .detail-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .detail-item i {
+            color: #3498db;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #2c3e50;
+            min-width: 80px;
+        }
+
+        .contributor-bio {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #dee2e6;
+            color: #5d6d7e;
+            font-style: italic;
+        }
+
+        /* Faculty Section */
+        .faculty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn.prev {
+            background: #7f8c8d;
+        }
+
+        .nav-btn.prev:hover {
+            background: #6c7b7d;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-steps {
+            display: flex;
+            gap: 5px;
+        }
+
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .progress-step.active {
+            background: #3498db;
+        }
+
+        .progress-step.completed {
+            background: #2ecc71;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .top-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .top-nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .contributors-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .contributors-container {
+                padding: 25px;
+            }
+            
+            .top-nav {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 5px;
+            }
+            
+            .contributors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .faculty-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .virtual-labs-logo h1 {
+                font-size: 20px;
+            }
+            
+            .college-name {
+                font-size: 1.4rem;
+            }
+            
+            .progress-indicator {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .detail-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-section">
+                <div class="virtual-labs-logo">
+                    <i class="fas fa-flask"></i>
+                    <h1>Virtual <span>Labs</span> - Linear Algebra</h1>
+                </div>
+            </div>
+            
+            <div class="top-nav">
+                <button class="top-nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='theory.html'">
+                    <i class="fas fa-book"></i> Theory
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='pretest.html'">
+                    <i class="fas fa-question-circle"></i> Pretest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='aim.html'">
+                    <i class="fas fa-bullseye"></i> Aim
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='simulation.html'">
+                    <i class="fas fa-desktop"></i> Simulation
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='posttest.html'">
+                    <i class="fas fa-clipboard-check"></i> Posttest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='reference.html'">
+                    <i class="fas fa-book-open"></i> References
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='feedback.html'">
+                    <i class="fas fa-comment-alt"></i> Feedback
+                </button>
+                <button class="top-nav-btn active" onclick="window.location.href='contributor.html'">
+                    <i class="fas fa-users"></i> Contributors
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-text">
+                Current Section: <strong>Project Contributors</strong>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1><i class="fas fa-users"></i> Project Contributors</h1>
+            <p class="subtitle">Meet the team behind the Linear Dependence Calculator Virtual Lab</p>
+        </div>
+        
+        <!-- Contributors Container -->
+        <div class="contributors-container">
+            <!-- College Information -->
+            <div class="college-info">
+                <div class="college-name">Pimpri Chinchwad College of Engineering</div>
+                <div class="department">Department of Applied Sciences & Humanities</div>
+                <div class="project-info">
+                    Virtual Lab Project: Linear Dependence & Independence of Vectors
+                </div>
+            </div>
+            
+            <!-- Student Developers Section -->
+            <div class="team-section">
+                <h2 class="team-title">
+                    <i class="fas fa-user-graduate"></i> Student Developers
+                </h2>
+                
+                <div class="info-box">
+                    <div class="info-title">
+                        <i class="fas fa-info-circle"></i> Project Team
+                    </div>
+                    <p>This virtual lab project was developed by undergraduate students from the Engineering Mathematics course as part of their curriculum project work. The team worked collaboratively to design, develop, and implement all components of this interactive learning platform.</p>
+                </div>
+                
+                <div class="contributors-grid">
+                    <!-- Student 1 -->
+                    <div class="contributor-card lead">
+                        <div class="contributor-role">Team Member</div>
+                        <h3 class="contributor-name">Krushna Shekade</h3>
+                        <div class="contributor-details">
+                            <div class="detail-item">
+                                <i class="fas fa-id-card"></i>
+                                <span class="detail-label">PRN:</span>
+                                <span>125B1F178</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">Email:</span>
+                                <span>krushna.shekade25@pccoepune.org</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-book"></i>
+                                <span class="detail-label">Course:</span>
+                                <span>Engineering Mathematics</span>
+                            </div>
+                        </div>
+                        <p class="contributor-bio">
+                            Contributed to algorithm implementation and simulation development.
+                        </p>
+                    </div>
+                    
+                    <!-- Student 2 -->
+                    <div class="contributor-card">
+                        <div class="contributor-role">Team Member</div>
+                        <h3 class="contributor-name">Vedant Kulkarni</h3>
+                        <div class="contributor-details">
+                            <div class="detail-item">
+                                <i class="fas fa-id-card"></i>
+                                <span class="detail-label">PRN:</span>
+                                <span>125B1F183</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">Email:</span>
+                                <span>vedant.kulkarni25@pccoepune.org</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-book"></i>
+                                <span class="detail-label">Course:</span>
+                                <span>Engineering Mathematics</span>
+                            </div>
+                        </div>
+                        <p class="contributor-bio">
+                            Worked on user interface design and interactive components.
+                        </p>
+                    </div>
+                    
+                    <!-- Student 3 -->
+                    <div class="contributor-card">
+                        <div class="contributor-role">Team Member</div>
+                        <h3 class="contributor-name">Sangam Gupta</h3>
+                        <div class="contributor-details">
+                            <div class="detail-item">
+                                <i class="fas fa-id-card"></i>
+                                <span class="detail-label">PRN:</span>
+                                <span>125B1F191</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">Email:</span>
+                                <span>sangam.gupta25@pccoepune.org</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-book"></i>
+                                <span class="detail-label">Course:</span>
+                                <span>Engineering Mathematics</span>
+                            </div>
+                        </div>
+                        <p class="contributor-bio">
+                            Focused on content development and testing procedures.
+                        </p>
+                    </div>
+                    
+                    <!-- Student 4 -->
+                    <div class="contributor-card">
+                        <div class="contributor-role">Team Member</div>
+                        <h3 class="contributor-name">Atharva Jankar</h3>
+                        <div class="contributor-details">
+                            <div class="detail-item">
+                                <i class="fas fa-id-card"></i>
+                                <span class="detail-label">PRN:</span>
+                                <span>125B1F184</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">Email:</span>
+                                <span>atharva.jankar25@pccoepune.org</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-book"></i>
+                                <span class="detail-label">Course:</span>
+                                <span>Engineering Mathematics</span>
+                            </div>
+                        </div>
+                        <p class="contributor-bio">
+                            Responsible for documentation and integration testing.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Faculty Section -->
+            <div class="team-section">
+                <h2 class="team-title">
+                    <i class="fas fa-chalkboard-teacher"></i> Faculty & Mentors
+                </h2>
+                
+                <div class="faculty-grid">
+                    <!-- Project Guide -->
+                    <div class="contributor-card guide">
+                        <div class="contributor-role">Project Guide</div>
+                        <h3 class="contributor-name">Prof. Dinesh Kute</h3>
+                        <div class="contributor-details">
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">Email:</span>
+                                <span>dinesh.kute@pccoepune.org</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span class="detail-label">Department:</span>
+                                <span>Applied Sciences & Humanities</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-book"></i>
+                                <span class="detail-label">Subject:</span>
+                                <span>Engineering Mathematics</span>
+                            </div>
+                        </div>
+                        <p class="contributor-bio">
+                            Provided guidance, technical support, and academic supervision throughout the project development. Mentored the team in implementing mathematical algorithms and educational pedagogy.
+                        </p>
+                    </div>
+                    
+                    <!-- Head of Department -->
+                    <div class="contributor-card hod">
+                        <div class="contributor-role">Head of Department</div>
+                        <h3 class="contributor-name">Prof. Leena Sharma</h3>
+                        <div class="contributor-details">
+                            <div class="detail-item">
+                                <i class="fas fa-envelope"></i>
+                                <span class="detail-label">Email:</span>
+                                <span>leena.sharma@pccoepune.org</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-graduation-cap"></i>
+                                <span class="detail-label">Department:</span>
+                                <span>Applied Sciences & Humanities</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-university"></i>
+                                <span class="detail-label">Position:</span>
+                                <span>Head of Department</span>
+                            </div>
+                        </div>
+                        <p class="contributor-bio">
+                            Provided administrative support and resources for the virtual lab project. Oversees the curriculum integration and quality assurance of educational technology initiatives in the department.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Project Details -->
+            <div class="info-box">
+                <div class="info-title">
+                    <i class="fas fa-project-diagram"></i> Project Details
+                </div>
+                <div class="contributor-details">
+                    <div class="detail-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span class="detail-label">Academic Year:</span>
+                        <span>2025-2026</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-code-branch"></i>
+                        <span class="detail-label">Project Type:</span>
+                        <span>Virtual Lab Development</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-code"></i>
+                        <span class="detail-label">Technologies:</span>
+                        <span>HTML5, CSS3, JavaScript, GitHub Pages</span>
+                    </div>
+                    <div class="detail-item">
+                        <i class="fas fa-clock"></i>
+                        <span class="detail-label">Duration:</span>
+                        <span>4 Months (September - December 2025)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <a href="feedback.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Previous: Feedback
+                </a>
+                
+                <button class="nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Return to Home
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Linear Dependence Calculator Virtual Lab | Engineering Mathematics | 
+               Pimpri Chinchwad College of Engineering</p>
+            <p>© 2025 Virtual Labs Project | All Rights Reserved</p>
+            <p>Department of Applied Sciences & Humanities | Academic Year 2025-26</p>
+        </footer>
+    </div>
+
+    <script>
+        // Update progress indicator
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update progress steps
+            const progressSteps = document.querySelectorAll('.progress-step');
+            progressSteps.forEach((step, index) => {
+                if (index < 8) {
+                    step.classList.add('completed');
+                } else if (index === 8) {
+                    step.classList.add('active');
+                }
+            });
+            
+            // Add animation to contributor cards
+            const contributorCards = document.querySelectorAll('.contributor-card');
+            contributorCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 200 + index * 100);
+            });
+            
+            // Navigation button hover effects
+            const navBtns = document.querySelectorAll('.top-nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(-2px)';
+                    }
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            // Add email copy functionality
+            const emailElements = document.querySelectorAll('.detail-item:nth-child(2) span:nth-child(3)');
+            emailElements.forEach(email => {
+                email.style.cursor = 'pointer';
+                email.title = 'Click to copy email';
+                email.addEventListener('click', function() {
+                    const emailText = this.textContent;
+                    navigator.clipboard.writeText(emailText)
+                        .then(() => {
+                            const originalText = this.textContent;
+                            this.textContent = 'Copied!';
+                            setTimeout(() => {
+                                this.textContent = originalText;
+                            }, 1500);
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy: ', err);
+                        });
+                });
+                
+                email.addEventListener('mouseenter', function() {
+                    this.style.color = '#3498db';
+                    this.style.textDecoration = 'underline';
+                });
+                
+                email.addEventListener('mouseleave', function() {
+                    this.style.color = '';
+                    this.style.textDecoration = 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

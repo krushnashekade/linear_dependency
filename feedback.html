@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Linear Dependence Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .virtual-labs-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .virtual-labs-logo i {
+            font-size: 28px;
+            color: #3498db;
+        }
+
+        .virtual-labs-logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .virtual-labs-logo span {
+            color: #3498db;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .top-nav-btn:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        .top-nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .top-nav-btn i {
+            font-size: 16px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #3498db;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Feedback Container */
+        .feedback-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: #3498db;
+        }
+
+        /* Info Box */
+        .info-box {
+            background: #e8f4fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+
+        .info-title {
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+        }
+
+        .info-content {
+            line-height: 1.7;
+        }
+
+        .info-content ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .info-content li {
+            margin-bottom: 8px;
+        }
+
+        /* Form Container */
+        .form-container {
+            width: 100%;
+            margin: 30px 0;
+        }
+
+        .form-iframe {
+            width: 100%;
+            height: 1200px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Alternative Link */
+        .alternative-link {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            border-left: 5px solid #f39c12;
+        }
+
+        .link-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .form-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+
+        .form-link:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .form-link i {
+            margin-right: 8px;
+        }
+
+        .link-note {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-steps {
+            display: flex;
+            gap: 5px;
+        }
+
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .progress-step.active {
+            background: #3498db;
+        }
+
+        .progress-step.completed {
+            background: #2ecc71;
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn.prev {
+            background: #7f8c8d;
+        }
+
+        .nav-btn.prev:hover {
+            background: #6c7b7d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .top-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .top-nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .feedback-container {
+                padding: 25px;
+            }
+            
+            .top-nav {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 5px;
+            }
+            
+            .form-iframe {
+                height: 1000px;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .virtual-labs-logo h1 {
+                font-size: 20px;
+            }
+            
+            .form-iframe {
+                height: 800px;
+            }
+            
+            .progress-indicator {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-section">
+                <div class="virtual-labs-logo">
+                    <i class="fas fa-flask"></i>
+                    <h1>Virtual <span>Labs</span> - Linear Algebra</h1>
+                </div>
+            </div>
+            
+            <div class="top-nav">
+                <button class="top-nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='theory.html'">
+                    <i class="fas fa-book"></i> Theory
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='pretest.html'">
+                    <i class="fas fa-question-circle"></i> Pretest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='aim.html'">
+                    <i class="fas fa-bullseye"></i> Aim
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='simulation.html'">
+                    <i class="fas fa-desktop"></i> Simulation
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='posttest.html'">
+                    <i class="fas fa-clipboard-check"></i> Posttest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='reference.html'">
+                    <i class="fas fa-book-open"></i> References
+                </button>
+                <button class="top-nav-btn active" onclick="window.location.href='feedback.html'">
+                    <i class="fas fa-comment-alt"></i> Feedback
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-text">
+                Current Section: <strong>Feedback & Evaluation</strong>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1><i class="fas fa-comment-alt"></i> Feedback & Evaluation</h1>
+            <p class="subtitle">Share your experience and help us improve the Virtual Lab</p>
+        </div>
+        
+        <!-- Feedback Container -->
+        <div class="feedback-container">
+            <h2 class="section-title">
+                <i class="fas fa-comments"></i> User Feedback Form
+            </h2>
+            
+            <div class="info-box">
+                <div class="info-title">
+                    <i class="fas fa-info-circle"></i> Instructions
+                </div>
+                <div class="info-content">
+                    <p>Your feedback is extremely valuable to us! Please take a few minutes to complete this form to help us improve the Virtual Lab experience.</p>
+                    <ul>
+                        <li>The form should take approximately 5-10 minutes to complete</li>
+                        <li>All responses are anonymous and confidential</li>
+                        <li>Your honest feedback will help improve this learning resource for future students</li>
+                        <li>If you encounter any issues with the embedded form, use the alternative link below</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Embedded Microsoft Form -->
+            <div class="form-container">
+                <iframe class="form-iframe" 
+                        src="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAMAADVWIN9UOE9NTVQ5Qk1BNFlIQ1dPNVFYU0VQU0lCOS4u"
+                        title="Feedback Form"
+                        allow="fullscreen">
+                </iframe>
+            </div>
+            
+            <!-- Alternative Link -->
+            <div class="alternative-link">
+                <div class="link-title">
+                    <i class="fas fa-external-link-alt"></i> Alternative Access
+                </div>
+                <p>If the embedded form above isn't working properly, you can access it directly via:</p>
+                <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=DQSIkWdsW0yxEjajBLZtrQAAAAAAAAAAAAMAADVWIN9UOE9NTVQ5Qk1BNFlIQ1dPNVFYU0VQU0lCOS4u" 
+                   class="form-link" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Open Form in New Tab
+                </a>
+                <p class="link-note">Note: This will open the form in a new browser tab/window.</p>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <a href="reference.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Previous: References
+                </a>
+                
+                <button class="nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Return to Home
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Linear Dependence Calculator Virtual Lab | Engineering Mathematics | 
+               Pimpri Chinchwad College of Engineering</p>
+            <p>© 2025 Virtual Labs Project | All Rights Reserved</p>
+            <p>Feedback collected via Microsoft Forms | Responses are anonymous</p>
+        </footer>
+    </div>
+
+    <script>
+        // Update navigation to include feedback page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Update progress indicator
+            const progressSteps = document.querySelectorAll('.progress-step');
+            progressSteps.forEach((step, index) => {
+                if (index < 7) {
+                    step.classList.add('completed');
+                } else if (index === 7) {
+                    step.classList.add('active');
+                }
+            });
+            
+            // Add animation to form container
+            const formContainer = document.querySelector('.form-container');
+            formContainer.style.opacity = '0';
+            formContainer.style.transform = 'translateY(20px)';
+            formContainer.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            
+            setTimeout(() => {
+                formContainer.style.opacity = '1';
+                formContainer.style.transform = 'translateY(0)';
+            }, 300);
+            
+            // Add loading indicator for iframe
+            const formIframe = document.querySelector('.form-iframe');
+            formIframe.addEventListener('load', function() {
+                console.log('Feedback form loaded successfully');
+            });
+            
+            formIframe.addEventListener('error', function() {
+                console.log('Error loading feedback form');
+                // Show alternative link more prominently
+                const alternativeLink = document.querySelector('.alternative-link');
+                alternativeLink.style.background = '#f8d7da';
+                alternativeLink.style.borderLeftColor = '#dc3545';
+            });
+            
+            // Navigation button hover effects
+            const navBtns = document.querySelectorAll('.top-nav-btn');
+            navBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(-2px)';
+                    }
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+        });
+        
+        // Function to check if iframe is loaded
+        function checkIframeLoaded() {
+            const iframe = document.querySelector('.form-iframe');
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            
+            // Check if loading is complete
+            if (iframeDoc.readyState === 'complete') {
+                // Iframe is loaded
+                return true;
+            } else {
+                // Iframe is not loaded yet
+                setTimeout(checkIframeLoaded, 100);
+            }
+        }
+        
+        // Start checking iframe load status
+        window.onload = function() {
+            checkIframeLoaded();
+        };
+    </script>
+</body>
+</html>

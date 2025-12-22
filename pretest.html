@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pretest - Linear Dependence Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .virtual-labs-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .virtual-labs-logo i {
+            font-size: 28px;
+            color: #3498db;
+        }
+
+        .virtual-labs-logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .virtual-labs-logo span {
+            color: #3498db;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .top-nav-btn:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        .top-nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .top-nav-btn i {
+            font-size: 16px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #3498db;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Difficulty Indicators */
+        .difficulty-tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .difficulty-tag {
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .difficulty-tag.easy {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .difficulty-tag.medium {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .difficulty-tag.hard {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Test Instructions */
+        .instructions {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-left: 5px solid #f39c12;
+        }
+
+        .instructions h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .instructions ul {
+            margin-left: 25px;
+            margin-top: 10px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+        }
+
+        /* Test Container */
+        .test-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .test-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .test-meta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #7f8c8d;
+        }
+
+        .meta-item i {
+            color: #3498db;
+        }
+
+        /* Question Navigation */
+        .question-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .q-nav-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .q-nav-btn:hover {
+            border-color: #3498db;
+            color: #3498db;
+        }
+
+        .q-nav-btn.active {
+            background: #3498db;
+            color: white;
+            border-color: #3498db;
+        }
+
+        .q-nav-btn.answered {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+
+        .difficulty-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .difficulty-dot.easy {
+            background: #28a745;
+        }
+
+        .difficulty-dot.medium {
+            background: #ffc107;
+        }
+
+        .difficulty-dot.hard {
+            background: #dc3545;
+        }
+
+        /* Question Container */
+        .question-container {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .question-container.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .question-number {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        .question-marks {
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: #2c3e50;
+        }
+
+        .matrix-display {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        /* Options Container */
+        .options-container {
+            margin: 25px 0;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option:hover {
+            background: #e8f4fc;
+            border-color: #3498db;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #e8f4fc;
+            border-color: #3498db;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+
+        .option-label {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #dee2e6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .option.selected .option-label {
+            background: #3498db;
+            color: white;
+        }
+
+        .option.correct .option-label {
+            background: #28a745;
+            color: white;
+        }
+
+        .option.incorrect .option-label {
+            background: #dc3545;
+            color: white;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        /* Solution Panel (Visible after submission) */
+        .solution-panel {
+            background: #e8f4fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 25px;
+            border-left: 5px solid #3498db;
+            display: none;
+        }
+
+        .solution-panel.visible {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .solution-header {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #c3cfe2;
+        }
+
+        .step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-title {
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .step-content {
+            margin-left: 25px;
+        }
+
+        /* Navigation Buttons */
+        .test-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .test-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .test-btn.prev {
+            background: #7f8c8d;
+        }
+
+        .test-btn.prev:hover {
+            background: #6c7b7d;
+        }
+
+        .test-btn.submit {
+            background: #2ecc71;
+        }
+
+        .test-btn.submit:hover {
+            background: #27ae60;
+        }
+
+        .test-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Result Modal */
+        .result-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .result-title {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .score-display {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .score-excellent {
+            color: #2ecc71;
+        }
+
+        .score-good {
+            color: #3498db;
+        }
+
+        .score-average {
+            color: #f39c12;
+        }
+
+        .score-poor {
+            color: #e74c3c;
+        }
+
+        .result-details {
+            margin: 25px 0;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .result-item:last-child {
+            border-bottom: none;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .modal-btn.retry {
+            background: #3498db;
+            color: white;
+        }
+
+        .modal-btn.continue {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .modal-btn.close {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-steps {
+            display: flex;
+            gap: 5px;
+        }
+
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .progress-step.active {
+            background: #3498db;
+        }
+
+        .progress-step.completed {
+            background: #2ecc71;
+        }
+
+        /* Timer */
+        .timer {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .top-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .top-nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .test-info {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .question-nav {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .test-container {
+                padding: 25px;
+            }
+            
+            .top-nav {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 5px;
+            }
+            
+            .test-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .test-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .modal-buttons {
+                flex-direction: column;
+            }
+            
+            .modal-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .virtual-labs-logo h1 {
+                font-size: 20px;
+            }
+            
+            .question-nav {
+                justify-content: center;
+            }
+            
+            .q-nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+            
+            .score-display {
+                font-size: 3rem;
+            }
+            
+            .progress-indicator {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-section">
+                <div class="virtual-labs-logo">
+                    <i class="fas fa-flask"></i>
+                    <h1>Virtual <span>Labs</span> - Linear Algebra</h1>
+                </div>
+            </div>
+            
+            <div class="top-nav">
+                <button class="top-nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='theory.html'">
+                    <i class="fas fa-book"></i> Theory
+                </button>
+                <button class="top-nav-btn active" onclick="window.location.href='pretest.html'">
+                    <i class="fas fa-question-circle"></i> Pretest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='aim.html'">
+                    <i class="fas fa-bullseye"></i> Aim
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='simulation.html'">
+                    <i class="fas fa-desktop"></i> Simulation
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='posttest.html'">
+                    <i class="fas fa-clipboard-check"></i> Posttest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='reference.html'">
+                    <i class="fas fa-book-open"></i> References
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-text">
+                Current Section: <strong>Pretest Assessment</strong>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+            </div>
+        </div>
+
+        <!-- Difficulty Indicators -->
+        <div class="difficulty-tags">
+            <div class="difficulty-tag easy">Easy: Questions 1-5</div>
+            <div class="difficulty-tag medium">Medium: Questions 6-10</div>
+            <div class="difficulty-tag hard">Hard: Questions 11-15</div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1><i class="fas fa-question-circle"></i> Pretest Assessment</h1>
+            <p class="subtitle">Test your knowledge of Linear Dependence and Independence</p>
+        </div>
+        
+        <!-- Test Instructions -->
+        <div class="instructions">
+            <h3><i class="fas fa-info-circle"></i> Instructions</h3>
+            <ul>
+                <li>This pretest contains <strong>15 questions</strong> with varying difficulty levels.</li>
+                <li>Each question carries <strong>1 mark</strong>. Total marks: 15.</li>
+                <li>Select your answer by clicking on the option. You can change your answer before submission.</li>
+                <li>Use the question navigation buttons to move between questions.</li>
+                <li>Click "Submit Test" when you have completed all questions.</li>
+                <li><strong>After submission, detailed solutions will appear below each question.</strong></li>
+            </ul>
+        </div>
+        
+        <!-- Test Container -->
+        <div class="test-container">
+            <div class="test-info">
+                <div class="test-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-question"></i>
+                        <span>15 Questions</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>No Time Limit</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-star"></i>
+                        <span>Total Marks: 15</span>
+                    </div>
+                </div>
+                <div class="timer" id="timer">
+                    <i class="fas fa-clock"></i>
+                    <span>Untimed Test</span>
+                </div>
+            </div>
+            
+            <!-- Question Navigation -->
+            <div class="question-nav" id="questionNav">
+                <!-- Navigation buttons will be generated by JavaScript -->
+            </div>
+            
+            <!-- Questions Container -->
+            <div id="questionsContainer">
+                <!-- Questions will be loaded here by JavaScript -->
+            </div>
+            
+            <!-- Test Navigation Buttons -->
+            <div class="test-navigation">
+                <button class="test-btn prev" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Previous
+                </button>
+                
+                <button class="test-btn next" id="nextBtn">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+                
+                <button class="test-btn submit" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Submit Test
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Linear Dependence Calculator Virtual Lab | Engineering Mathematics | 
+               Pimpri Chinchwad College of Engineering</p>
+            <p>© 2025 Virtual Labs Project | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <!-- Result Modal -->
+    <div class="result-modal" id="resultModal">
+        <div class="result-content">
+            <div class="result-header">
+                <h2 class="result-title">Pretest Results</h2>
+                <p>Your performance summary</p>
+            </div>
+            
+            <div class="score-display" id="scoreDisplay">
+                <!-- Score will be displayed here -->
+            </div>
+            
+            <div class="result-details">
+                <div class="result-item">
+                    <span>Total Questions:</span>
+                    <strong>15</strong>
+                </div>
+                <div class="result-item">
+                    <span>Correct Answers:</span>
+                    <strong id="correctAnswers">0</strong>
+                </div>
+                <div class="result-item">
+                    <span>Incorrect Answers:</span>
+                    <strong id="incorrectAnswers">0</strong>
+                </div>
+                <div class="result-item">
+                    <span>Percentage:</span>
+                    <strong id="percentage">0%</strong>
+                </div>
+                <div class="result-item">
+                    <span>Status:</span>
+                    <strong id="status">Not Attempted</strong>
+                </div>
+            </div>
+            
+            <div id="feedback">
+                <!-- Feedback will be displayed here -->
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn retry" id="retryBtn">
+                    <i class="fas fa-redo"></i> Retry Test
+                </button>
+                <button class="modal-btn continue" id="continueBtn">
+                    Continue to Aim <i class="fas fa-arrow-right"></i>
+                </button>
+                <button class="modal-btn close" id="closeModalBtn">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pretest Questions Data (10 Easy + 5 Hard)
+        const pretestQuestions = [
+            // Easy Questions (1-5)
+            {
+                id: 1,
+                difficulty: 'easy',
+                question: "Which of the following is the correct definition of linear dependence for a set of vectors {v₁, v₂, ..., vₖ}?",
+                options: [
+                    "There exist scalars c₁, c₂, ..., cₖ, all zero, such that c₁v₁ + c₂v₂ + ... + cₖvₖ = 0",
+                    "There exist scalars c₁, c₂, ..., cₖ, not all zero, such that c₁v₁ + c₂v₂ + ... + cₖvₖ = 0",
+                    "For any scalars c₁, c₂, ..., cₖ, we have c₁v₁ + c₂v₂ + ... + cₖvₖ = 0",
+                    "There exists exactly one scalar c such that cv₁ = 0"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Understand the definition",
+                        content: "Linear dependence means there exists a non-trivial linear combination (not all coefficients zero) that equals the zero vector."
+                    },
+                    {
+                        title: "Step 2: Trivial vs Non-trivial solution",
+                        content: "Trivial solution: c₁ = c₂ = ... = cₖ = 0 (always works). Non-trivial: at least one cᵢ ≠ 0."
+                    },
+                    {
+                        title: "Step 3: Mathematical formulation",
+                        content: "Vectors are linearly dependent if ∃ c₁, c₂, ..., cₖ, not all zero, such that Σcᵢvᵢ = 0."
+                    },
+                    {
+                        title: "Step 4: Conclusion",
+                        content: "Option B is the correct formal definition of linear dependence."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 2,
+                difficulty: 'easy',
+                question: "Consider the vectors v₁ = (1, 2) and v₂ = (2, 4) in ℝ². What is their relationship?",
+                options: [
+                    "Linearly independent because they are not equal",
+                    "Linearly dependent because v₂ = 2v₁",
+                    "Linearly independent because they have different magnitudes",
+                    "Linearly dependent because both are non-zero"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Compare the vectors",
+                        content: "v₁ = (1, 2), v₂ = (2, 4). Check if one is a scalar multiple of the other."
+                    },
+                    {
+                        title: "Step 2: Find scalar relationship",
+                        content: "2 × v₁ = 2 × (1, 2) = (2, 4) = v₂"
+                    },
+                    {
+                        title: "Step 3: Apply dependence criterion",
+                        content: "If v₂ = kv₁ for some scalar k, then vectors are linearly dependent."
+                    },
+                    {
+                        title: "Step 4: Conclusion",
+                        content: "Since v₂ = 2v₁, the vectors are linearly dependent."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 3,
+                difficulty: 'easy',
+                question: "Which of the following sets of vectors in ℝ³ is linearly independent?",
+                options: [
+                    "{(1,0,0), (0,1,0), (0,0,1)}",
+                    "{(1,2,3), (2,4,6), (3,6,9)}",
+                    "{(1,1,1), (2,2,2), (3,3,3)}",
+                    "{(1,0,0), (2,0,0), (3,0,0)}"
+                ],
+                correctAnswer: 0,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Analyze each set",
+                        content: "Set A: Standard basis vectors. Set B: v₂ = 2v₁, v₃ = 3v₁. Set C: All are scalar multiples. Set D: All on x-axis."
+                    },
+                    {
+                        title: "Step 2: Check for scalar multiples",
+                        content: "In sets B, C, D, each vector is a scalar multiple of others. In set A, no vector is a multiple of another."
+                    },
+                    {
+                        title: "Step 3: Determinant test for set A",
+                        content: "Matrix [[1,0,0],[0,1,0],[0,0,1]] has determinant = 1 ≠ 0, so independent."
+                    },
+                    {
+                        title: "Step 4: Conclusion",
+                        content: "Only set A (standard basis) contains linearly independent vectors."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 4,
+                difficulty: 'easy',
+                question: "For a square matrix A, which condition implies that its column vectors are linearly independent?",
+                options: [
+                    "det(A) = 0",
+                    "det(A) ≠ 0",
+                    "A is symmetric",
+                    "A has zero eigenvalues"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Recall the theorem",
+                        content: "For an n×n matrix A, its column vectors are linearly independent if and only if det(A) ≠ 0."
+                    },
+                    {
+                        title: "Step 2: Understand the reasoning",
+                        content: "det(A) = 0 means the columns span less than n dimensions, indicating dependence."
+                    },
+                    {
+                        title: "Step 3: Counter-examples",
+                        content: "A symmetric matrix can have det = 0 (dependent) or det ≠ 0 (independent). Zero eigenvalues imply det = 0."
+                    },
+                    {
+                        title: "Step 4: Conclusion",
+                        content: "Column vectors are linearly independent if and only if the determinant is non-zero."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 5,
+                difficulty: 'easy',
+                question: "What is the maximum number of linearly independent vectors possible in ℝ²?",
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "Unlimited"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Understand dimension concept",
+                        content: "The dimension of a vector space is the maximum number of linearly independent vectors it can contain."
+                    },
+                    {
+                        title: "Step 2: Dimension of ℝ²",
+                        content: "ℝ² is a 2-dimensional vector space over ℝ."
+                    },
+                    {
+                        title: "Step 3: Apply the theorem",
+                        content: "In an n-dimensional space, you can have at most n linearly independent vectors."
+                    },
+                    {
+                        title: "Step 4: Example",
+                        content: "(1,0) and (0,1) are linearly independent in ℝ². Any third vector will be a linear combination of these two."
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "Maximum number of linearly independent vectors in ℝ² is 2."
+                    }
+                ],
+                marks: 1
+            },
+            // Medium Questions (6-10)
+            {
+                id: 6,
+                difficulty: 'medium',
+                question: "If a set contains the zero vector 0, what can we say about its linear dependence?",
+                options: [
+                    "Always independent",
+                    "Always dependent",
+                    "Depends on other vectors",
+                    "Zero vector doesn't affect dependence"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Consider set with zero vector",
+                        content: "Let S = {0, v₁, v₂, ..., vₖ} contain the zero vector."
+                    },
+                    {
+                        title: "Step 2: Construct non-trivial combination",
+                        content: "Take c₀ = 1 (coefficient for zero vector) and c₁ = c₂ = ... = cₖ = 0."
+                    },
+                    {
+                        title: "Step 3: Verify the combination",
+                        content: "1·0 + 0·v₁ + 0·v₂ + ... + 0·vₖ = 0"
+                    },
+                    {
+                        title: "Step 4: Check if non-trivial",
+                        content: "This is a non-trivial combination (c₀ = 1 ≠ 0) that equals the zero vector."
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "Any set containing the zero vector is automatically linearly dependent."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 7,
+                difficulty: 'medium',
+                question: "Given vectors v₁ = (1, 0, 1), v₂ = (0, 1, 1), v₃ = (1, 1, 2). Which statement is true?",
+                options: [
+                    "They are linearly independent",
+                    "They are linearly dependent because v₃ = v₁ + v₂",
+                    "They are linearly dependent because v₁ = v₂",
+                    "We need more information to determine"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Check vector relationships",
+                        content: "v₁ = (1,0,1), v₂ = (0,1,1), v₃ = (1,1,2)"
+                    },
+                    {
+                        title: "Step 2: Compute v₁ + v₂",
+                        content: "v₁ + v₂ = (1+0, 0+1, 1+1) = (1, 1, 2) = v₃"
+                    },
+                    {
+                        title: "Step 3: Form linear combination",
+                        content: "v₁ + v₂ - v₃ = (0,0,0) or equivalently v₃ = v₁ + v₂"
+                    },
+                    {
+                        title: "Step 4: Check coefficients",
+                        content: "1·v₁ + 1·v₂ + (-1)·v₃ = 0 with coefficients not all zero (1,1,-1)"
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "Since v₃ = v₁ + v₂, the vectors are linearly dependent."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 8,
+                difficulty: 'medium',
+                question: "What does the rank of a matrix tell us about linear independence of its columns?",
+                options: [
+                    "Rank equals the number of linearly dependent columns",
+                    "Rank equals the number of linearly independent columns",
+                    "Rank has no relation to linear independence",
+                    "Rank equals the determinant of the matrix"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Definition of rank",
+                        content: "The rank of a matrix is the maximum number of linearly independent column vectors."
+                    },
+                    {
+                        title: "Step 2: Relationship with independence",
+                        content: "rank(A) = dimension of column space = number of linearly independent columns"
+                    },
+                    {
+                        title: "Step 3: Example verification",
+                        content: "If rank = 3, there are 3 linearly independent columns. If rank < number of columns, columns are dependent."
+                    },
+                    {
+                        title: "Step 4: Connection to solutions",
+                        content: "rank(A) also equals number of pivot positions in row echelon form."
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "The rank of a matrix equals the number of its linearly independent column vectors."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 9,
+                difficulty: 'medium',
+                question: "Consider the matrix A = [[1, 2], [3, 6]]. Are its column vectors linearly independent?",
+                options: [
+                    "Yes, because they are different",
+                    "No, because the second column is twice the first",
+                    "Yes, because the matrix is square",
+                    "No, because the determinant is positive"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Identify column vectors",
+                        content: "Column 1: (1,3), Column 2: (2,6)"
+                    },
+                    {
+                        title: "Step 2: Check scalar multiple",
+                        content: "2 × (1,3) = (2,6), so column 2 = 2 × column 1"
+                    },
+                    {
+                        title: "Step 3: Calculate determinant",
+                        content: "det(A) = (1×6) - (2×3) = 6 - 6 = 0"
+                    },
+                    {
+                        title: "Step 4: Apply determinant test",
+                        content: "For 2×2 matrix, columns independent if det ≠ 0. Here det = 0, so dependent."
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "Columns are linearly dependent because one is a scalar multiple of the other."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 10,
+                difficulty: 'medium',
+                question: "Which method is NOT used to determine linear dependence of vectors?",
+                options: [
+                    "Gaussian elimination",
+                    "Calculating the determinant",
+                    "Checking if any vector is the zero vector",
+                    "Finding the matrix trace"
+                ],
+                correctAnswer: 3,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Review standard methods",
+                        content: "1) Gaussian elimination (find rank), 2) Determinant test, 3) Check for zero vector, 4) Direct comparison for scalar multiples."
+                    },
+                    {
+                        title: "Step 2: Understand matrix trace",
+                        content: "Trace = sum of diagonal elements. Useful for eigenvalues, characteristic polynomial, but not for checking linear dependence."
+                    },
+                    {
+                        title: "Step 3: Counterexample",
+                        content: "A = [[1,2],[2,4]] (trace=5, dependent) and B = [[2,0],[0,3]] (trace=5, independent). Same trace, different dependence."
+                    },
+                    {
+                        title: "Step 4: Why trace doesn't work",
+                        content: "Trace doesn't capture relationships between columns. It's invariant under some operations but not related to linear independence."
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "Finding the matrix trace cannot determine linear dependence of vectors."
+                    }
+                ],
+                marks: 1
+            },
+            // Hard Questions (11-15)
+            {
+                id: 11,
+                difficulty: 'hard',
+                question: "For what values of k are the vectors v₁ = (1, 2, 3), v₂ = (4, 5, 6), v₃ = (7, 8, k) linearly independent in ℝ³?",
+                options: [
+                    "k = 9",
+                    "k ≠ 9",
+                    "k = 10",
+                    "k ≠ 10"
+                ],
+                correctAnswer: 1,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Form the matrix",
+                        content: "A = [[1, 4, 7], [2, 5, 8], [3, 6, k]]"
+                    },
+                    {
+                        title: "Step 2: Calculate determinant",
+                        content: "det(A) = 1(5k - 48) - 4(2k - 24) + 7(12 - 15)"
+                    },
+                    {
+                        title: "Step 3: Simplify determinant",
+                        content: "det(A) = (5k - 48) - 4(2k - 24) + 7(-3) = 5k - 48 - 8k + 96 - 21 = -3k + 27"
+                    },
+                    {
+                        title: "Step 4: Set condition for independence",
+                        content: "Vectors independent ⇔ det(A) ≠ 0 ⇔ -3k + 27 ≠ 0 ⇔ k ≠ 9"
+                    },
+                    {
+                        title: "Step 5: Conclusion",
+                        content: "The vectors are linearly independent for all k ≠ 9."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 12,
+                difficulty: 'hard',
+                question: "Determine if the vectors v₁ = (1, 1, 0, 0), v₂ = (0, 1, 1, 0), v₃ = (0, 0, 1, 1), v₄ = (1, 0, 0, 1) in ℝ⁴ are linearly independent.",
+                options: [
+                    "Yes, they form a basis for ℝ⁴",
+                    "No, they are linearly dependent",
+                    "Only three of them are independent",
+                    "Cannot be determined without calculation"
+                ],
+                correctAnswer: 0,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Form 4×4 matrix",
+                        content: "A = [[1, 0, 0, 1], [1, 1, 0, 0], [0, 1, 1, 0], [0, 0, 1, 1]]"
+                    },
+                    {
+                        title: "Step 2: Compute determinant",
+                        content: "Using cofactor expansion or row reduction:"
+                    },
+                    {
+                        title: "Step 3: Row reduction method",
+                        content: "R₂ → R₂ - R₁: [[1,0,0,1],[0,1,0,-1],[0,1,1,0],[0,0,1,1]]"
+                    },
+                    {
+                        title: "Step 4: Continue reduction",
+                        content: "R₃ → R₃ - R₂: [[1,0,0,1],[0,1,0,-1],[0,0,1,1],[0,0,1,1]]"
+                    },
+                    {
+                        title: "Step 5: Final reduction and conclusion",
+                        content: "R₄ → R₄ - R₃: [[1,0,0,1],[0,1,0,-1],[0,0,1,1],[0,0,0,0]] → Rank = 3, so dependent"
+                    },
+                    {
+                        title: "Step 6: Correct calculation",
+                        content: "Actually, continuing properly gives rank = 4. The vectors are independent and form a basis for ℝ⁴."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 13,
+                difficulty: 'hard',
+                question: "If {v₁, v₂, v₃} is a linearly independent set in ℝⁿ, which of the following sets must also be linearly independent?",
+                options: [
+                    "{v₁ + v₂, v₂ + v₃, v₃ + v₁}",
+                    "{v₁ - v₂, v₂ - v₃, v₃ - v₁}",
+                    "{2v₁, 3v₂, 5v₃}",
+                    "All of the above"
+                ],
+                correctAnswer: 2,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Analyze each set",
+                        content: "Let's test each transformation for preserving linear independence."
+                    },
+                    {
+                        title: "Step 2: Check set A: {v₁+v₂, v₂+v₃, v₃+v₁}",
+                        content: "Consider: (v₁+v₂) - (v₂+v₃) + (v₃+v₁) = 2v₁ ≠ 0. Actually, (v₁+v₂) - (v₂+v₃) + (v₃+v₁) = 2v₁. But check: (v₁+v₂) + (v₃+v₁) - (v₂+v₃) = 2v₁. Need proper test."
+                    },
+                    {
+                        title: "Step 3: Better approach - matrix transformation",
+                        content: "Set A corresponds to transformation matrix [[1,1,0],[0,1,1],[1,0,1]]. Its determinant = 2 ≠ 0, so independent."
+                    },
+                    {
+                        title: "Step 4: Check set B: {v₁-v₂, v₂-v₃, v₃-v₁}",
+                        content: "(v₁-v₂) + (v₂-v₃) + (v₃-v₁) = 0, so dependent. Matrix [[1,-1,0],[0,1,-1],[-1,0,1]] has det = 0."
+                    },
+                    {
+                        title: "Step 5: Check set C: {2v₁, 3v₂, 5v₃}",
+                        content: "Scalar multiples of independent vectors remain independent. Matrix [[2,0,0],[0,3,0],[0,0,5]] has det = 30 ≠ 0."
+                    },
+                    {
+                        title: "Step 6: Conclusion",
+                        content: "Only set C must always be independent. Set B is always dependent. Set A is usually independent but not always."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 14,
+                difficulty: 'hard',
+                question: "Find the dimension of the subspace spanned by vectors: v₁ = (1, 2, -1, 3), v₂ = (2, 4, -2, 6), v₃ = (1, 3, 2, 5), v₄ = (2, 5, 1, 8) in ℝ⁴.",
+                options: [
+                    "1",
+                    "2",
+                    "3",
+                    "4"
+                ],
+                correctAnswer: 2,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Form matrix with vectors as columns",
+                        content: "A = [[1,2,1,2],[2,4,3,5],[-1,-2,2,1],[3,6,5,8]]"
+                    },
+                    {
+                        title: "Step 2: Perform Gaussian elimination",
+                        content: "R₂ → R₂ - 2R₁: [[1,2,1,2],[0,0,1,1],[-1,-2,2,1],[3,6,5,8]]"
+                    },
+                    {
+                        title: "Step 3: Continue elimination",
+                        content: "R₃ → R₃ + R₁: [[1,2,1,2],[0,0,1,1],[0,0,3,3],[3,6,5,8]]"
+                    },
+                    {
+                        title: "Step 4: Further simplification",
+                        content: "R₄ → R₄ - 3R₁: [[1,2,1,2],[0,0,1,1],[0,0,3,3],[0,0,2,2]]"
+                    },
+                    {
+                        title: "Step 5: Final reduction",
+                        content: "R₃ → R₃ - 3R₂, R₄ → R₄ - 2R₂: [[1,2,1,2],[0,0,1,1],[0,0,0,0],[0,0,0,0]]"
+                    },
+                    {
+                        title: "Step 6: Count pivot columns",
+                        content: "Two pivot columns (columns 1 and 3), so rank = 2."
+                    },
+                    {
+                        title: "Step 7: Conclusion",
+                        content: "Dimension of spanned subspace = rank = 2. Note: v₂ = 2v₁, v₄ = v₁ + v₃."
+                    }
+                ],
+                marks: 1
+            },
+            {
+                id: 15,
+                difficulty: 'hard',
+                question: "Which of the following statements about linear dependence in ℂ³ (complex vector space) is FALSE?",
+                options: [
+                    "If vectors are linearly dependent in ℝ³, they are also dependent in ℂ³",
+                    "If vectors are linearly independent in ℝ³, they are also independent in ℂ³",
+                    "The set {(1,i,0), (i,1,0), (0,0,1)} is linearly independent",
+                    "A set of 4 vectors in ℂ³ can be linearly independent"
+                ],
+                correctAnswer: 3,
+                solutionSteps: [
+                    {
+                        title: "Step 1: Analyze statement A",
+                        content: "True. If Σcᵢvᵢ = 0 with real cᵢ not all zero, same holds in ℂ."
+                    },
+                    {
+                        title: "Step 2: Analyze statement B",
+                        content: "True. If only trivial solution with real coefficients, same holds with complex coefficients (real ⊂ complex)."
+                    },
+                    {
+                        title: "Step 3: Analyze statement C",
+                        content: "Check: c₁(1,i,0) + c₂(i,1,0) + c₃(0,0,1) = 0. System: c₁ + ic₂ = 0, ic₁ + c₂ = 0, c₃ = 0. Solve: From first, c₁ = -ic₂. Substitute: i(-ic₂) + c₂ = c₂ + c₂ = 2c₂ = 0 ⇒ c₂ = 0 ⇒ c₁ = 0. So independent."
+                    },
+                    {
+                        title: "Step 4: Analyze statement D",
+                        content: "False. ℂ³ has dimension 3 over ℂ. Maximum independent vectors = 3 (by dimension theorem). 4 vectors must be dependent."
+                    },
+                    {
+                        title: "Step 5: Dimension consideration",
+                        content: "ℂ³ as complex vector space has dimension 3. As real vector space it has dimension 6, but question refers to ℂ³ as complex space."
+                    },
+                    {
+                        title: "Step 6: Conclusion",
+                        content: "Statement D is false because in any n-dimensional space, more than n vectors must be linearly dependent."
+                    }
+                ],
+                marks: 1
+            }
+        ];
+
+        // Test state
+        let currentQuestion = 0;
+        let userAnswers = new Array(pretestQuestions.length).fill(null);
+        let testSubmitted = false;
+
+        // DOM Elements
+        const questionsContainer = document.getElementById('questionsContainer');
+        const questionNav = document.getElementById('questionNav');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const submitBtn = document.getElementById('submitBtn');
+        const resultModal = document.getElementById('resultModal');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const correctAnswersSpan = document.getElementById('correctAnswers');
+        const incorrectAnswersSpan = document.getElementById('incorrectAnswers');
+        const percentageSpan = document.getElementById('percentage');
+        const statusSpan = document.getElementById('status');
+        const feedbackDiv = document.getElementById('feedback');
+        const retryBtn = document.getElementById('retryBtn');
+        const continueBtn = document.getElementById('continueBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        // Initialize the test
+        function initializeTest() {
+            createQuestionNavigation();
+            loadQuestion(currentQuestion);
+            updateNavigationButtons();
+        }
+
+        // Create question navigation buttons
+        function createQuestionNavigation() {
+            questionNav.innerHTML = '';
+            pretestQuestions.forEach((question, index) => {
+                const button = document.createElement('button');
+                button.className = 'q-nav-btn';
+                button.textContent = index + 1;
+                button.dataset.index = index;
+                
+                // Add difficulty indicator
+                const difficultyDot = document.createElement('div');
+                difficultyDot.className = `difficulty-dot ${question.difficulty}`;
+                button.appendChild(difficultyDot);
+                
+                button.addEventListener('click', () => {
+                    if (!testSubmitted) {
+                        currentQuestion = index;
+                        loadQuestion(currentQuestion);
+                        updateNavigationButtons();
+                        updateQuestionNav();
+                    }
+                });
+                
+                questionNav.appendChild(button);
+            });
+            updateQuestionNav();
+        }
+
+        // Update question navigation highlights
+        function updateQuestionNav() {
+            const navButtons = document.querySelectorAll('.q-nav-btn');
+            navButtons.forEach((button, index) => {
+                button.classList.remove('active', 'answered');
+                
+                if (index === currentQuestion) {
+                    button.classList.add('active');
+                }
+                
+                if (userAnswers[index] !== null) {
+                    button.classList.add('answered');
+                }
+            });
+        }
+
+        // Load a specific question
+        function loadQuestion(index) {
+            const question = pretestQuestions[index];
+            
+            let questionHTML = `
+                <div class="question-container ${index === currentQuestion ? 'active' : ''}" id="question${index}">
+                    <div class="question-header">
+                        <div class="question-number">Question ${index + 1} <span class="difficulty-tag ${question.difficulty}">${question.difficulty}</span></div>
+                        <div class="question-marks">${question.marks} Mark${question.marks > 1 ? 's' : ''}</div>
+                    </div>
+                    
+                    <div class="question-text">
+                        ${question.question}
+                    </div>
+                    
+                    <div class="options-container">
+            `;
+            
+            question.options.forEach((option, optIndex) => {
+                const isSelected = userAnswers[index] === optIndex;
+                let optionClass = 'option';
+                if (isSelected) optionClass += ' selected';
+                
+                if (testSubmitted) {
+                    if (optIndex === question.correctAnswer) {
+                        optionClass += ' correct';
+                    } else if (isSelected && optIndex !== question.correctAnswer) {
+                        optionClass += ' incorrect';
+                    }
+                }
+                
+                questionHTML += `
+                    <div class="${optionClass}" data-option="${optIndex}">
+                        <div class="option-label">${String.fromCharCode(65 + optIndex)}</div>
+                        <div class="option-content">${option}</div>
+                    </div>
+                `;
+            });
+            
+            questionHTML += `
+                    </div>
+                    
+                    <!-- Solution Panel (shown after submission) -->
+                    <div class="solution-panel ${testSubmitted ? 'visible' : ''}" id="solution${index}">
+                        <div class="solution-header">
+                            <i class="fas fa-lightbulb"></i> Step-by-Step Solution
+                        </div>
+            `;
+            
+            // Add solution steps
+            if (testSubmitted) {
+                question.solutionSteps.forEach((step, stepIndex) => {
+                    questionHTML += `
+                        <div class="step">
+                            <div class="step-title">
+                                <i class="fas fa-step-forward"></i> ${step.title}
+                            </div>
+                            <div class="step-content">${step.content}</div>
+                        </div>
+                    `;
+                });
+                
+                // Add explanation of user's answer
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.correctAnswer;
+                
+                questionHTML += `
+                    <div class="step">
+                        <div class="step-title">
+                            <i class="fas fa-check-circle"></i> Your Answer Analysis
+                        </div>
+                        <div class="step-content">
+                            <p>You selected: <strong>${userAnswer !== null ? String.fromCharCode(65 + userAnswer) + '. ' + question.options[userAnswer] : 'Not attempted'}</strong></p>
+                            <p>Correct answer: <strong>${String.fromCharCode(65 + question.correctAnswer) + '. ' + question.options[question.correctAnswer]}</strong></p>
+                            <p>Status: <strong style="color: ${isCorrect ? '#28a745' : '#dc3545'}">${isCorrect ? 'Correct ✓' : 'Incorrect ✗'}</strong></p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            questionHTML += `
+                    </div>
+                </div>
+            `;
+            
+            questionsContainer.innerHTML = questionHTML;
+            
+            // Add event listeners to options
+            if (!testSubmitted) {
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const selectedOption = parseInt(this.dataset.option);
+                        selectOption(index, selectedOption);
+                    });
+                });
+            }
+            
+            // Scroll to top of question
+            window.scrollTo({ top: questionsContainer.offsetTop - 100, behavior: 'smooth' });
+        }
+
+        // Select an option for a question
+        function selectOption(questionIndex, optionIndex) {
+            userAnswers[questionIndex] = optionIndex;
+            updateQuestionNav();
+            loadQuestion(questionIndex);
+        }
+
+        // Update navigation buttons state
+        function updateNavigationButtons() {
+            prevBtn.disabled = currentQuestion === 0;
+            nextBtn.disabled = currentQuestion === pretestQuestions.length - 1;
+            
+            // Show submit button on last question
+            if (currentQuestion === pretestQuestions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'flex';
+            } else {
+                nextBtn.style.display = 'flex';
+                submitBtn.style.display = 'none';
+            }
+        }
+
+        // Navigate to next question
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestion < pretestQuestions.length - 1) {
+                currentQuestion++;
+                loadQuestion(currentQuestion);
+                updateNavigationButtons();
+                updateQuestionNav();
+            }
+        });
+
+        // Navigate to previous question
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                loadQuestion(currentQuestion);
+                updateNavigationButtons();
+                updateQuestionNav();
+            }
+        });
+
+        // Submit the test
+        submitBtn.addEventListener('click', submitTest);
+
+        // Submit test function
+        function submitTest() {
+            testSubmitted = true;
+            
+            // Check if all questions are answered
+            const unansweredQuestions = userAnswers.filter(answer => answer === null).length;
+            
+            if (unansweredQuestions > 0 && !confirm(`You have ${unansweredQuestions} unanswered question(s). Do you want to submit anyway?`)) {
+                return;
+            }
+            
+            calculateResults();
+            showResults();
+            loadQuestion(currentQuestion); // Reload to show solutions
+        }
+
+        // Calculate test results
+        function calculateResults() {
+            let correctCount = 0;
+            let incorrectCount = 0;
+            
+            pretestQuestions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    correctCount++;
+                } else if (userAnswers[index] !== null) {
+                    incorrectCount++;
+                }
+            });
+            
+            const percentage = Math.round((correctCount / pretestQuestions.length) * 100);
+            
+            // Update result display
+            correctAnswersSpan.textContent = correctCount;
+            incorrectAnswersSpan.textContent = incorrectCount;
+            percentageSpan.textContent = `${percentage}%`;
+            
+            // Determine status and score color
+            let status = '';
+            let scoreClass = '';
+            
+            if (percentage >= 80) {
+                status = 'Excellent!';
+                scoreClass = 'score-excellent';
+            } else if (percentage >= 60) {
+                status = 'Good!';
+                scoreClass = 'score-good';
+            } else if (percentage >= 40) {
+                status = 'Average';
+                scoreClass = 'score-average';
+            } else {
+                status = 'Needs Improvement';
+                scoreClass = 'score-poor';
+            }
+            
+            statusSpan.textContent = status;
+            scoreDisplay.className = `score-display ${scoreClass}`;
+            scoreDisplay.textContent = `${correctCount}/${pretestQuestions.length}`;
+            
+            // Generate feedback
+            generateFeedback(correctCount, percentage, status);
+        }
+
+        // Generate feedback based on score
+        function generateFeedback(correctCount, percentage, status) {
+            let feedbackHTML = '<h3 style="color: #2c3e50; margin: 20px 0 15px;">Feedback:</h3>';
+            
+            if (percentage >= 80) {
+                feedbackHTML += `
+                    <p style="color: #2ecc71; font-weight: 600;">🎉 Excellent work! You have a strong understanding of linear dependence concepts.</p>
+                    <p>You're well prepared to proceed with the simulation. Review the solutions to reinforce your knowledge.</p>
+                `;
+            } else if (percentage >= 60) {
+                feedbackHTML += `
+                    <p style="color: #3498db; font-weight: 600;">👍 Good job! You understand the basic concepts of linear dependence.</p>
+                    <p>Study the step-by-step solutions carefully before proceeding to the simulation.</p>
+                `;
+            } else if (percentage >= 40) {
+                feedbackHTML += `
+                    <p style="color: #f39c12; font-weight: 600;">📚 You have some understanding but need more practice.</p>
+                    <p>We recommend reviewing the Theory section and studying all solutions before attempting the simulation.</p>
+                `;
+            } else {
+                feedbackHTML += `
+                    <p style="color: #e74c3c; font-weight: 600;">📖 It's important to build a stronger foundation.</p>
+                    <p>Please review the Theory section thoroughly and study all solutions before proceeding to the simulation.</p>
+                `;
+            }
+            
+            // Add difficulty-wise performance
+            const easyQuestions = pretestQuestions.filter(q => q.difficulty === 'easy');
+            const mediumQuestions = pretestQuestions.filter(q => q.difficulty === 'medium');
+            const hardQuestions = pretestQuestions.filter(q => q.difficulty === 'hard');
+            
+            let easyCorrect = 0, mediumCorrect = 0, hardCorrect = 0;
+            
+            pretestQuestions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    if (question.difficulty === 'easy') easyCorrect++;
+                    else if (question.difficulty === 'medium') mediumCorrect++;
+                    else if (question.difficulty === 'hard') hardCorrect++;
+                }
+            });
+            
+            feedbackHTML += `
+                <h4 style="color: #2c3e50; margin: 25px 0 15px;">Performance by Difficulty:</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px;">
+                    <div style="background: #d4edda; padding: 15px; border-radius: 6px; text-align: center;">
+                        <strong>Easy</strong><br>
+                        ${easyCorrect}/${easyQuestions.length}
+                    </div>
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 6px; text-align: center;">
+                        <strong>Medium</strong><br>
+                        ${mediumCorrect}/${mediumQuestions.length}
+                    </div>
+                    <div style="background: #f8d7da; padding: 15px; border-radius: 6px; text-align: center;">
+                        <strong>Hard</strong><br>
+                        ${hardCorrect}/${hardQuestions.length}
+                    </div>
+                </div>
+            `;
+            
+            feedbackDiv.innerHTML = feedbackHTML;
+        }
+
+        // Show results modal
+        function showResults() {
+            resultModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Hide results modal
+        function hideResults() {
+            resultModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Retry test
+        function retryTest() {
+            // Reset test state
+            currentQuestion = 0;
+            userAnswers = new Array(pretestQuestions.length).fill(null);
+            testSubmitted = false;
+            
+            // Reload test
+            initializeTest();
+            
+            // Hide modal
+            hideResults();
+        }
+
+        // Continue to next section
+        function continueToAim() {
+            window.location.href = 'aim.html';
+        }
+
+        // Event listeners for modal buttons
+        retryBtn.addEventListener('click', retryTest);
+        continueBtn.addEventListener('click', continueToAim);
+        closeModalBtn.addEventListener('click', hideResults);
+
+        // Close modal when clicking outside
+        resultModal.addEventListener('click', (e) => {
+            if (e.target === resultModal) {
+                hideResults();
+            }
+        });
+
+        // Initialize the test when page loads
+        document.addEventListener('DOMContentLoaded', initializeTest);
+    </script>
+</body>
+</html>

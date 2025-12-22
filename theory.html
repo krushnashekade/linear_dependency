@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory - Linear Dependence Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .virtual-labs-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .virtual-labs-logo i {
+            font-size: 28px;
+            color: #3498db;
+        }
+
+        .virtual-labs-logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .virtual-labs-logo span {
+            color: #3498db;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .top-nav-btn:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        .top-nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .top-nav-btn i {
+            font-size: 16px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #3498db;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* Main Content */
+        .theory-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        /* Theory Navigation */
+        .theory-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .theory-nav-btn {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theory-nav-btn:hover {
+            background: #e8f4fc;
+            transform: translateY(-2px);
+        }
+
+        .theory-nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Theory Content Sections */
+        .theory-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .theory-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: #3498db;
+        }
+
+        .theory-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* Definition Box */
+        .definition-box {
+            background: #e8f4fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #3498db;
+        }
+
+        .definition-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Mathematical Formulas */
+        .formula-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'Cambria Math', 'Times New Roman', serif;
+            font-size: 1.2rem;
+            text-align: center;
+            border: 1px solid #e9ecef;
+        }
+
+        .formula {
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+
+        /* Example Box */
+        .example-box {
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #f39c12;
+        }
+
+        .example-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Theorem Box */
+        .theorem-box {
+            background: #f0f7ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border: 2px solid #3498db;
+            position: relative;
+        }
+
+        .theorem-title {
+            color: #3498db;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theorem-number {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        /* Key Points */
+        .key-points {
+            margin: 25px 0;
+        }
+
+        .key-point {
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 3px solid #2ecc71;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .key-point i {
+            color: #2ecc71;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        /* Matrix Visualization */
+        .matrix-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px solid #e9ecef;
+            overflow-x: auto;
+        }
+
+        .matrix-title {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .matrix {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .matrix td {
+            padding: 12px 20px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+            min-width: 50px;
+        }
+
+        .matrix-bracket {
+            font-size: 2rem;
+            font-weight: bold;
+            padding: 0 10px;
+            vertical-align: middle;
+        }
+
+        /* Geometric Visualization */
+        .geometric-visualization {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .visualization-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #dee2e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 1.1rem;
+            margin: 15px 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0 30px;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn.prev {
+            background: #7f8c8d;
+        }
+
+        .nav-btn.prev:hover {
+            background: #6c7b7d;
+        }
+
+        .nav-btn.next {
+            background: #2ecc71;
+        }
+
+        .nav-btn.next:hover {
+            background: #27ae60;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-steps {
+            display: flex;
+            gap: 5px;
+        }
+
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .progress-step.active {
+            background: #3498db;
+        }
+
+        .progress-step.completed {
+            background: #2ecc71;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .top-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .theory-nav {
+                justify-content: center;
+            }
+            
+            .top-nav-btn, .theory-nav-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .theory-container {
+                padding: 25px;
+            }
+            
+            .top-nav {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 5px;
+            }
+            
+            .theory-nav {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+            
+            .bottom-navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .virtual-labs-logo h1 {
+                font-size: 20px;
+            }
+            
+            .section-title {
+                font-size: 1.6rem;
+            }
+            
+            .progress-indicator {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-section">
+                <div class="virtual-labs-logo">
+                    <i class="fas fa-flask"></i>
+                    <h1>Virtual <span>Labs</span> - Linear Algebra</h1>
+                </div>
+            </div>
+            
+            <div class="top-nav">
+                <button class="top-nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="top-nav-btn active">
+                    <i class="fas fa-book"></i> Theory
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='pretest.html'">
+                    <i class="fas fa-question-circle"></i> Pretest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='aim.html'">
+                    <i class="fas fa-bullseye"></i> Aim
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='simulation.html'">
+                    <i class="fas fa-desktop"></i> Simulation
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='posttest.html'">
+                    <i class="fas fa-clipboard-check"></i> Posttest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='reference.html'">
+                    <i class="fas fa-book-open"></i> References
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-text">
+                Current Section: <strong>Theory of Linear Dependence</strong>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+                <div class="progress-step"></div>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1><i class="fas fa-book"></i> Theoretical Foundation</h1>
+            <p class="subtitle">Understanding Linear Dependence and Independence</p>
+        </div>
+        
+        <!-- Theory Navigation -->
+        <div class="theory-nav">
+            <button class="theory-nav-btn active" data-section="basic-concepts">
+                <i class="fas fa-brain"></i> Basic Concepts
+            </button>
+            <button class="theory-nav-btn" data-section="definitions">
+                <i class="fas fa-graduation-cap"></i> Formal Definitions
+            </button>
+            <button class="theory-nav-btn" data-section="theorems">
+                <i class="fas fa-certificate"></i> Theorems
+            </button>
+            <button class="theory-nav-btn" data-section="methods">
+                <i class="fas fa-cogs"></i> Detection Methods
+            </button>
+            <button class="theory-nav-btn" data-section="geometric">
+                <i class="fas fa-shapes"></i> Geometric View
+            </button>
+            <button class="theory-nav-btn" data-section="applications">
+                <i class="fas fa-rocket"></i> Applications
+            </button>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="theory-container">
+            <!-- Basic Concepts Section -->
+            <div class="theory-section active" id="basic-concepts">
+                <h2 class="section-title">
+                    <i class="fas fa-brain"></i> Basic Concepts
+                </h2>
+                
+                <div class="theory-content">
+                    <p>
+                        Linear dependence and independence are fundamental concepts in linear algebra that describe 
+                        relationships between vectors in a vector space. These concepts help us understand whether 
+                        vectors provide unique information or if some vectors are redundant combinations of others.
+                    </p>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-lightbulb"></i> Intuitive Understanding
+                        </div>
+                        <p>
+                            <strong>Linear Independence:</strong> A set of vectors is linearly independent if no vector 
+                            in the set can be written as a linear combination of the others. Each vector adds a new 
+                            "direction" or dimension.
+                        </p>
+                        <p>
+                            <strong>Linear Dependence:</strong> A set is linearly dependent if at least one vector 
+                            can be expressed as a linear combination of the others. This means there's redundancy 
+                            in the information provided by the vectors.
+                        </p>
+                    </div>
+                    
+                    <div class="key-points">
+                        <div class="key-point">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Vector Space:</strong> A collection of vectors that can be added together and 
+                                multiplied by scalars (real numbers) while satisfying certain axioms.
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Linear Combination:</strong> An expression constructed from a set of vectors by 
+                                multiplying each vector by a scalar and adding the results.
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <i class="fas fa-check-circle"></i>
+                            <div>
+                                <strong>Span:</strong> The set of all possible linear combinations of a given set of vectors. 
+                                The span of linearly independent vectors forms a basis for a subspace.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Formal Definitions Section -->
+            <div class="theory-section" id="definitions">
+                <h2 class="section-title">
+                    <i class="fas fa-graduation-cap"></i> Formal Definitions
+                </h2>
+                
+                <div class="theory-content">
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-pen-fancy"></i> Definition 1: Linear Combination
+                        </div>
+                        <p>
+                            Given vectors <strong>v₁, v₂, ..., vₖ</strong> in a vector space V over a field F (typically ℝ), 
+                            a <strong>linear combination</strong> of these vectors is any vector of the form:
+                        </p>
+                        <div class="formula-box">
+                            <div class="formula">
+                                c₁v₁ + c₂v₂ + ... + cₖvₖ
+                            </div>
+                            where c₁, c₂, ..., cₖ ∈ F are scalars.
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-pen-fancy"></i> Definition 2: Linear Dependence
+                        </div>
+                        <p>
+                            A set of vectors {v₁, v₂, ..., vₖ} is <strong>linearly dependent</strong> if there exist scalars 
+                            c₁, c₂, ..., cₖ, not all zero, such that:
+                        </p>
+                        <div class="formula-box">
+                            <div class="formula">
+                                c₁v₁ + c₂v₂ + ... + cₖvₖ = 0
+                            </div>
+                            where 0 is the zero vector.
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-pen-fancy"></i> Definition 3: Linear Independence
+                        </div>
+                        <p>
+                            A set of vectors {v₁, v₂, ..., vₖ} is <strong>linearly independent</strong> if the only solution to:
+                        </p>
+                        <div class="formula-box">
+                            <div class="formula">
+                                c₁v₁ + c₂v₂ + ... + cₖvₖ = 0
+                            </div>
+                            is c₁ = c₂ = ... = cₖ = 0.
+                        </div>
+                        <p>
+                            This is called the <strong>trivial solution</strong>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Theorems Section -->
+            <div class="theory-section" id="theorems">
+                <h2 class="section-title">
+                    <i class="fas fa-certificate"></i> Important Theorems
+                </h2>
+                
+                <div class="theory-content">
+                    <div class="theorem-box">
+                        <div class="theorem-number">Theorem 1</div>
+                        <div class="theorem-title">
+                            <i class="fas fa-theorem"></i> Criterion for Linear Dependence
+                        </div>
+                        <p>
+                            A set of vectors {v₁, v₂, ..., vₙ} in ℝⁿ is linearly dependent if and only if 
+                            the determinant of the matrix formed by these vectors as columns (or rows) is zero.
+                        </p>
+                        <div class="formula-box">
+                            <div class="formula">
+                                det([v₁ v₂ ... vₙ]) = 0 ⇔ {v₁, v₂, ..., vₙ} is linearly dependent
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="theorem-box">
+                        <div class="theorem-number">Theorem 2</div>
+                        <div class="theorem-title">
+                            <i class="fas fa-theorem"></i> Rank and Linear Independence
+                        </div>
+                        <p>
+                            The rank of a matrix A equals the maximum number of linearly independent column vectors 
+                            (or row vectors) of A. For a set of m vectors in ℝⁿ:
+                        </p>
+                        <div class="formula-box">
+                            <div class="formula">
+                                rank(A) = number of linearly independent vectors
+                            </div>
+                        </div>
+                        <p>
+                            Vectors are linearly independent if and only if rank(A) = m (number of vectors).
+                        </p>
+                    </div>
+                    
+                    <div class="theorem-box">
+                        <div class="theorem-number">Theorem 3</div>
+                        <div class="theorem-title">
+                            <i class="fas fa-theorem"></i> Basis and Dimension
+                        </div>
+                        <p>
+                            A set of vectors in a vector space V is a <strong>basis</strong> for V if:
+                        </p>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li>The vectors are linearly independent</li>
+                            <li>The vectors span V (every vector in V can be written as their linear combination)</li>
+                        </ol>
+                        <p>
+                            The <strong>dimension</strong> of V is the number of vectors in any basis for V.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detection Methods Section -->
+            <div class="theory-section" id="methods">
+                <h2 class="section-title">
+                    <i class="fas fa-cogs"></i> Detection Methods
+                </h2>
+                
+                <div class="theory-content">
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-search"></i> Method 1: Gaussian Elimination (Row Reduction)
+                        </div>
+                        <p>
+                            The most general method for determining linear dependence/independence involves 
+                            creating a matrix with the vectors as columns and performing Gaussian elimination 
+                            to find its row echelon form.
+                        </p>
+                        <div class="key-points">
+                            <div class="key-point">
+                                <i class="fas fa-list-ol"></i>
+                                <div>
+                                    <strong>Step 1:</strong> Form matrix A with given vectors as columns
+                                </div>
+                            </div>
+                            
+                            <div class="key-point">
+                                <i class="fas fa-filter"></i>
+                                <div>
+                                    <strong>Step 2:</strong> Reduce A to row echelon form using elementary row operations
+                                </div>
+                            </div>
+                            
+                            <div class="key-point">
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <strong>Step 3:</strong> Count the number of pivot positions (non-zero rows)
+                                </div>
+                            </div>
+                            
+                            <div class="key-point">
+                                <i class="fas fa-balance-scale"></i>
+                                <div>
+                                    <strong>Step 4:</strong> Compare rank with number of vectors
+                                    <br>• If rank = number of vectors → Linearly Independent
+                                    <br>• If rank < number of vectors → Linearly Dependent
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-calculator"></i> Method 2: Determinant Method (for Square Matrices)
+                        </div>
+                        <p>
+                            For n vectors in ℝⁿ (square matrix), compute the determinant:
+                        </p>
+                        <div class="formula-box">
+                            <div class="formula">
+                                • det ≠ 0 → Vectors are linearly independent
+                                <br>• det = 0 → Vectors are linearly dependent
+                            </div>
+                        </div>
+                        <div class="example-box">
+                            <div class="example-title">
+                                <i class="fas fa-vial"></i> Example
+                            </div>
+                            <p>For vectors v₁ = (1, 2), v₂ = (3, 4) in ℝ²:</p>
+                            <div class="matrix-container">
+                                <div class="matrix-title">Matrix A = [v₁ v₂]</div>
+                                <table class="matrix">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>4</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <p>det(A) = (1×4) - (3×2) = 4 - 6 = -2 ≠ 0</p>
+                            <p><strong>Conclusion:</strong> v₁ and v₂ are linearly independent.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Geometric View Section -->
+            <div class="theory-section" id="geometric">
+                <h2 class="section-title">
+                    <i class="fas fa-shapes"></i> Geometric Interpretation
+                </h2>
+                
+                <div class="theory-content">
+                    <div class="geometric-visualization">
+                        <h3>Visualizing Linear Dependence in ℝ² and ℝ³</h3>
+                        <div class="visualization-placeholder">
+                            <i class="fas fa-cube fa-3x" style="color: #3498db; margin-right: 15px;"></i>
+                            <div>
+                                <p>Geometric visualization would appear here</p>
+                                <p style="font-size: 0.9rem;">(In an interactive version, this would show 2D/3D plots)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-draw-polygon"></i> In ℝ² (2D Plane)
+                        </div>
+                        <p>
+                            • <strong>Two vectors:</strong> Linearly dependent if they lie on the same line through the origin
+                            <br>• <strong>Three or more vectors:</strong> Always linearly dependent (ℝ² has dimension 2)
+                        </p>
+                        <div class="example-box">
+                            <div class="example-title">
+                                <i class="fas fa-example"></i> Examples in ℝ²
+                            </div>
+                            <p><strong>Independent:</strong> v₁ = (1,0), v₂ = (0,1) → Form a coordinate system</p>
+                            <p><strong>Dependent:</strong> v₁ = (1,2), v₂ = (2,4) → v₂ = 2·v₁ (collinear)</p>
+                        </div>
+                    </div>
+                    
+                    <div class="definition-box">
+                        <div class="definition-title">
+                            <i class="fas fa-cube"></i> In ℝ³ (3D Space)
+                        </div>
+                        <p>
+                            • <strong>Two vectors:</strong> Independent unless they're collinear
+                            <br>• <strong>Three vectors:</strong> Dependent if they lie in the same plane through the origin
+                            <br>• <strong>Four or more vectors:</strong> Always linearly dependent (ℝ³ has dimension 3)
+                        </p>
+                        <div class="example-box">
+                            <div class="example-title">
+                                <i class="fas fa-example"></i> Examples in ℝ³
+                            </div>
+                            <p><strong>Independent:</strong> (1,0,0), (0,1,0), (0,0,1) → Standard basis for ℝ³</p>
+                            <p><strong>Dependent:</strong> (1,2,3), (2,4,6), (3,6,9) → All are scalar multiples</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Applications Section -->
+            <div class="theory-section" id="applications">
+                <h2 class="section-title">
+                    <i class="fas fa-rocket"></i> Real-World Applications
+                </h2>
+                
+                <div class="theory-content">
+                    <div class="key-points">
+                        <div class="key-point">
+                            <i class="fas fa-desktop"></i>
+                            <div>
+                                <strong>Computer Graphics & Game Development:</strong>
+                                <br>• Basis vectors for coordinate systems and transformations
+                                <br>• Checking if normal vectors are independent for proper lighting
+                                <br>• Collision detection using vector independence
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <strong>Data Science & Machine Learning:</strong>
+                                <br>• Principal Component Analysis (PCA) - finding independent directions of variance
+                                <br>• Feature selection - removing linearly dependent features
+                                <br>• Dimensionality reduction techniques
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <i class="fas fa-cogs"></i>
+                            <div>
+                                <strong>Engineering & Physics:</strong>
+                                <br>• Structural analysis - checking force independence
+                                <br>• Circuit analysis - independent loop equations
+                                <br>• Control systems - state variable independence
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Cryptography & Coding Theory:</strong>
+                                <br>• Error-correcting codes (linear codes)
+                                <br>• Cryptographic algorithms based on linear algebra
+                                <br>• Signal processing - independent frequency components
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <i class="fas fa-microscope"></i>
+                            <div>
+                                <strong>Scientific Computing:</strong>
+                                <br>• Solving systems of linear equations
+                                <br>• Numerical stability analysis
+                                <br>• Condition number of matrices (related to near-dependence)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Navigation -->
+            <div class="bottom-navigation">
+                <a href="index.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Previous: Home
+                </a>
+                
+                <a href="pretest.html" class="nav-btn next">
+                    Next: Pretest <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Linear Dependence Calculator Virtual Lab | Engineering Mathematics | 
+               Pimpri Chinchwad College of Engineering</p>
+            <p>© 2025 Virtual Labs Project | All Rights Reserved</p>
+        </footer>
+    </div>
+
+    <script>
+        // Theory section navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const theoryNavBtns = document.querySelectorAll('.theory-nav-btn');
+            const theorySections = document.querySelectorAll('.theory-section');
+            
+            // Function to switch theory sections
+            function switchTheorySection(sectionId) {
+                // Remove active class from all buttons and sections
+                theoryNavBtns.forEach(btn => btn.classList.remove('active'));
+                theorySections.forEach(section => section.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding section
+                const activeBtn = document.querySelector(`.theory-nav-btn[data-section="${sectionId}"]`);
+                const activeSection = document.getElementById(sectionId);
+                
+                if (activeBtn) activeBtn.classList.add('active');
+                if (activeSection) activeSection.classList.add('active');
+                
+                // Update progress indicator for subsection
+                updateSubsectionProgress(sectionId);
+            }
+            
+            // Add click event listeners to theory navigation buttons
+            theoryNavBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const sectionId = this.getAttribute('data-section');
+                    switchTheorySection(sectionId);
+                });
+            });
+            
+            // Update progress indicator based on subsection
+            function updateSubsectionProgress(sectionId) {
+                const progressText = document.querySelector('.progress-text');
+                const sectionTitles = {
+                    'basic-concepts': 'Basic Concepts',
+                    'definitions': 'Formal Definitions',
+                    'theorems': 'Important Theorems',
+                    'methods': 'Detection Methods',
+                    'geometric': 'Geometric Interpretation',
+                    'applications': 'Real-World Applications'
+                };
+                
+                if (sectionTitles[sectionId]) {
+                    progressText.innerHTML = `Current Section: <strong>Theory - ${sectionTitles[sectionId]}</strong>`;
+                }
+            }
+            
+            // Initialize with first section active
+            switchTheorySection('basic-concepts');
+            
+            // Top navigation button hover effects
+            const topNavBtns = document.querySelectorAll('.top-nav-btn');
+            topNavBtns.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(-2px)';
+                    }
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('active')) {
+                        this.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+            
+            // Update main progress indicator
+            const progressSteps = document.querySelectorAll('.progress-step');
+            progressSteps.forEach((step, index) => {
+                if (index < 1) {
+                    step.classList.add('completed');
+                } else if (index === 1) {
+                    step.classList.add('active');
+                }
+            });
+            
+            // Add animation to key points
+            const keyPoints = document.querySelectorAll('.key-point');
+            keyPoints.forEach(point => {
+                point.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(5px)';
+                    this.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
+                });
+                
+                point.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+            
+            // Make formulas interactive
+            const formulas = document.querySelectorAll('.formula');
+            formulas.forEach(formula => {
+                formula.addEventListener('click', function() {
+                    const text = this.textContent;
+                    navigator.clipboard.writeText(text)
+                        .then(() => {
+                            const originalText = this.textContent;
+                            this.textContent = 'Copied!';
+                            setTimeout(() => {
+                                this.textContent = originalText;
+                            }, 1000);
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy: ', err);
+                        });
+                });
+                
+                // Add hover effect
+                formula.style.cursor = 'pointer';
+                formula.style.transition = 'background-color 0.3s';
+                
+                formula.addEventListener('mouseenter', function() {
+                    this.style.backgroundColor = '#e9ecef';
+                });
+                
+                formula.addEventListener('mouseleave', function() {
+                    this.style.backgroundColor = 'transparent';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

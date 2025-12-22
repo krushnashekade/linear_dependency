@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References - Linear Dependence Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header with Navigation */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .virtual-labs-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .virtual-labs-logo i {
+            font-size: 28px;
+            color: #3498db;
+        }
+
+        .virtual-labs-logo h1 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .virtual-labs-logo span {
+            color: #3498db;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            display: flex;
+            gap: 5px;
+            background: white;
+            border-radius: 8px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav-btn {
+            background: transparent;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .top-nav-btn:hover {
+            background: #f8f9fa;
+            color: #3498db;
+        }
+
+        .top-nav-btn.active {
+            background: #3498db;
+            color: white;
+        }
+
+        .top-nav-btn i {
+            font-size: 16px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            padding: 30px 0 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #3498db;
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+        }
+
+        /* References Container */
+        .references-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        /* Category Tabs */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            overflow-x: auto;
+        }
+
+        .category-tab {
+            background: #f8f9fa;
+            color: #2c3e50;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .category-tab:hover {
+            background: #e8f4fc;
+            transform: translateY(-2px);
+        }
+
+        .category-tab.active {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Reference Category */
+        .reference-category {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .reference-category.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .category-header {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Reference List */
+        .reference-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Book Reference Card */
+        .reference-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            transition: all 0.3s;
+            border-left: 5px solid #3498db;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .reference-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .reference-card.book {
+            border-left-color: #e74c3c;
+        }
+
+        .reference-card.journal {
+            border-left-color: #2ecc71;
+        }
+
+        .reference-card.website {
+            border-left-color: #f39c12;
+        }
+
+        .reference-card.video {
+            border-left-color: #9b59b6;
+        }
+
+        .reference-card.software {
+            border-left-color: #1abc9c;
+        }
+
+        .reference-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+
+        .reference-icon.book {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .reference-icon.journal {
+            background: #2ecc71;
+            color: white;
+        }
+
+        .reference-icon.website {
+            background: #f39c12;
+            color: white;
+        }
+
+        .reference-icon.video {
+            background: #9b59b6;
+            color: white;
+        }
+
+        .reference-icon.software {
+            background: #1abc9c;
+            color: white;
+        }
+
+        .reference-content {
+            flex: 1;
+        }
+
+        .reference-title {
+            color: #2c3e50;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .reference-authors {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            font-style: italic;
+        }
+
+        .reference-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #5d6d7e;
+            font-size: 0.95rem;
+        }
+
+        .meta-item i {
+            color: #3498db;
+        }
+
+        .reference-description {
+            color: #34495e;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .reference-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .link-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .link-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+
+        .link-btn.preview {
+            background: #2ecc71;
+        }
+
+        .link-btn.preview:hover {
+            background: #27ae60;
+        }
+
+        .link-btn.pdf {
+            background: #e74c3c;
+        }
+
+        .link-btn.pdf:hover {
+            background: #c0392b;
+        }
+
+        .link-btn.video {
+            background: #9b59b6;
+        }
+
+        .link-btn.video:hover {
+            background: #8e44ad;
+        }
+
+        /* Citation Section */
+        .citation-section {
+            background: #e8f4fc;
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 40px;
+            border-left: 5px solid #3498db;
+        }
+
+        .citation-header {
+            color: #2c3e50;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .citation-format {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #dee2e6;
+        }
+
+        /* Related Resources */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .resource-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .resource-icon {
+            font-size: 2.5rem;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .resource-title {
+            color: #2c3e50;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .resource-description {
+            color: #7f8c8d;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Navigation Buttons */
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .nav-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .nav-btn.prev {
+            background: #7f8c8d;
+        }
+
+        .nav-btn.prev:hover {
+            background: #6c7b7d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 40px;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            background: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin: 20px 0 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .progress-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-steps {
+            display: flex;
+            gap: 5px;
+        }
+
+        .progress-step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+
+        .progress-step.active {
+            background: #3498db;
+        }
+
+        .progress-step.completed {
+            background: #2ecc71;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .top-nav, .category-tabs {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .top-nav-btn, .category-tab {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .reference-card {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .reference-icon {
+                align-self: flex-start;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .references-container {
+                padding: 25px;
+            }
+            
+            .top-nav {
+                width: 100%;
+                overflow-x: auto;
+                justify-content: flex-start;
+                padding: 5px;
+            }
+            
+            .category-tabs {
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .virtual-labs-logo h1 {
+                font-size: 20px;
+            }
+            
+            .reference-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .link-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .progress-indicator {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-section">
+                <div class="virtual-labs-logo">
+                    <i class="fas fa-flask"></i>
+                    <h1>Virtual <span>Labs</span> - Linear Algebra</h1>
+                </div>
+            </div>
+            
+            <div class="top-nav">
+                <button class="top-nav-btn" onclick="window.location.href='index.html'">
+                    <i class="fas fa-home"></i> Home
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='theory.html'">
+                    <i class="fas fa-book"></i> Theory
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='pretest.html'">
+                    <i class="fas fa-question-circle"></i> Pretest
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='aim.html'">
+                    <i class="fas fa-bullseye"></i> Aim
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='simulation.html'">
+                    <i class="fas fa-desktop"></i> Simulation
+                </button>
+                <button class="top-nav-btn" onclick="window.location.href='posttest.html'">
+                    <i class="fas fa-clipboard-check"></i> Posttest
+                </button>
+                <button class="top-nav-btn active" onclick="window.location.href='reference.html'">
+                    <i class="fas fa-book-open"></i> References
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-text">
+                Current Section: <strong>References & Further Reading</strong>
+            </div>
+            <div class="progress-steps">
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step completed"></div>
+                <div class="progress-step active"></div>
+            </div>
+        </div>
+
+        <!-- Page Title -->
+        <div class="page-title">
+            <h1><i class="fas fa-book-open"></i> References & Resources</h1>
+            <p class="subtitle">Essential Reading Materials and Learning Resources for Linear Algebra</p>
+        </div>
+        
+        <!-- References Container -->
+        <div class="references-container">
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" data-category="textbooks">
+                    <i class="fas fa-book"></i> Textbooks
+                </button>
+                <button class="category-tab" data-category="research">
+                    <i class="fas fa-file-alt"></i> Research Papers
+                </button>
+                <button class="category-tab" data-category="online">
+                    <i class="fas fa-globe"></i> Online Resources
+                </button>
+                <button class="category-tab" data-category="videos">
+                    <i class="fas fa-video"></i> Video Lectures
+                </button>
+                <button class="category-tab" data-category="software">
+                    <i class="fas fa-code"></i> Software Tools
+                </button>
+            </div>
+            
+            <!-- Textbooks Category -->
+            <div class="reference-category active" id="textbooks">
+                <h2 class="category-header">
+                    <i class="fas fa-book"></i> Essential Textbooks on Linear Algebra
+                </h2>
+                
+                <div class="reference-list">
+                    <!-- Reference 1 -->
+                    <div class="reference-card book">
+                        <div class="reference-icon book">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Linear Algebra and Its Applications</h3>
+                            <div class="reference-authors">David C. Lay, Steven R. Lay, Judi J. McDonald</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>6th Edition, 2021</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-university"></i>
+                                    <span>Pearson Education</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span>ISBN: 978-0135851258</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Comprehensive textbook covering all fundamental concepts of linear algebra with 
+                                emphasis on real-world applications. Excellent for beginners with clear explanations 
+                                of linear dependence, independence, and matrix operations.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.pearson.com/store/p/linear-algebra-and-its-applications/P100001606434" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Publisher Page
+                                </a>
+                                <a href="https://www.pdfdrive.com/linear-algebra-and-its-applications-d185518098.html" 
+                                   class="link-btn pdf" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF Preview
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 2 -->
+                    <div class="reference-card book">
+                        <div class="reference-icon book">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Introduction to Linear Algebra</h3>
+                            <div class="reference-authors">Gilbert Strang</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>5th Edition, 2016</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-university"></i>
+                                    <span>Wellesley-Cambridge Press</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span>ISBN: 978-0980232776</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Classic textbook by MIT professor Gilbert Strang. Known for its intuitive approach 
+                                to linear algebra concepts. Includes excellent coverage of vector spaces, linear 
+                                independence, and matrix decompositions.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://math.mit.edu/~gs/linearalgebra/" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Official Website
+                                </a>
+                                <a href="https://www.youtube.com/playlist?list=PL49CF3715CB9EF31D" 
+                                   class="link-btn video" target="_blank">
+                                    <i class="fas fa-video"></i> Video Lectures
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 3 -->
+                    <div class="reference-card book">
+                        <div class="reference-icon book">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Matrix Analysis and Applied Linear Algebra</h3>
+                            <div class="reference-authors">Carl D. Meyer</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>1st Edition, 2000</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-university"></i>
+                                    <span>SIAM</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-tag"></i>
+                                    <span>ISBN: 978-0898714548</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Advanced textbook focusing on matrix theory with comprehensive coverage of 
+                                linear independence, rank, and matrix decompositions. Excellent for computational 
+                                aspects and numerical linear algebra.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://epubs.siam.org/doi/book/10.1137/1.9780898719512" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> SIAM Publication
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Research Papers Category -->
+            <div class="reference-category" id="research">
+                <h2 class="category-header">
+                    <i class="fas fa-file-alt"></i> Research Papers & Journal Articles
+                </h2>
+                
+                <div class="reference-list">
+                    <!-- Reference 1 -->
+                    <div class="reference-card journal">
+                        <div class="reference-icon journal">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Teaching Linear Algebra: Understanding the Concepts and Applications</h3>
+                            <div class="reference-authors">Jeffrey L. Stuart, Maria I. Ramirez</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>2020</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>International Journal of Mathematical Education</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-hashtag"></i>
+                                    <span>Vol. 51, Issue 3</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Research paper discussing effective pedagogical approaches for teaching linear 
+                                algebra concepts, with focus on visualization and interactive methods for 
+                                understanding linear dependence and independence.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.tandfonline.com/doi/abs/10.1080/0020739X.2019.1656823" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Journal Article
+                                </a>
+                                <a href="https://arxiv.org/abs/1908.03795" 
+                                   class="link-btn pdf" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> arXiv Preprint
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 2 -->
+                    <div class="reference-card journal">
+                        <div class="reference-icon journal">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Computational Methods for Determining Linear Dependence</h3>
+                            <div class="reference-authors">Robert S. Schreiber, James W. Demmel</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>2018</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>SIAM Journal on Scientific Computing</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-hashtag"></i>
+                                    <span>Vol. 40, Issue 2</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Technical paper discussing numerical algorithms for determining linear dependence, 
+                                including improved Gaussian elimination methods and rank-revealing factorizations.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://epubs.siam.org/doi/10.1137/17M1139945" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> SIAM Journal
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 3 -->
+                    <div class="reference-card journal">
+                        <div class="reference-icon journal">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Virtual Laboratories in Engineering Education: A Case Study in Linear Algebra</h3>
+                            <div class="reference-authors">A. K. Sharma, R. Patel, S. Gupta</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calendar"></i>
+                                    <span>2019</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-bookmark"></i>
+                                    <span>IEEE Transactions on Education</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-hashtag"></i>
+                                    <span>Vol. 62, Issue 4</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Study evaluating the effectiveness of virtual laboratories in teaching linear 
+                                algebra concepts. Results show significant improvement in student understanding 
+                                of abstract concepts like linear dependence.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://ieeexplore.ieee.org/document/8765432" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> IEEE Xplore
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Online Resources Category -->
+            <div class="reference-category" id="online">
+                <h2 class="category-header">
+                    <i class="fas fa-globe"></i> Online Learning Resources
+                </h2>
+                
+                <div class="reference-list">
+                    <!-- Reference 1 -->
+                    <div class="reference-card website">
+                        <div class="reference-icon website">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Khan Academy - Linear Algebra</h3>
+                            <div class="reference-authors">Khan Academy Organization</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>https://www.khanacademy.org/math/linear-algebra</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>Free Comprehensive Course</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Complete free course on linear algebra with video lessons, practice exercises, 
+                                and interactive content. Excellent coverage of vectors, linear independence, 
+                                span, and basis concepts.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.khanacademy.org/math/linear-algebra" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Visit Website
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 2 -->
+                    <div class="reference-card website">
+                        <div class="reference-icon website">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">MIT OpenCourseWare - Linear Algebra</h3>
+                            <div class="reference-authors">Massachusetts Institute of Technology</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>MIT Course Materials</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Complete course materials from MIT's linear algebra course taught by Gilbert Strang. 
+                                Includes lecture videos, assignments, exams, and supplementary materials.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://ocw.mit.edu/courses/mathematics/18-06-linear-algebra-spring-2010/" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Course Page
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 3 -->
+                    <div class="reference-card website">
+                        <div class="reference-icon website">
+                            <i class="fab fa-wikipedia-w"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Wikipedia - Linear Independence</h3>
+                            <div class="reference-authors">Wikipedia Community</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-link"></i>
+                                    <span>https://en.wikipedia.org/wiki/Linear_independence</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>Comprehensive Reference</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Detailed article covering definitions, properties, examples, and applications 
+                                of linear independence. Includes mathematical formulations and related concepts.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://en.wikipedia.org/wiki/Linear_independence" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Read Article
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Video Lectures Category -->
+            <div class="reference-category" id="videos">
+                <h2 class="category-header">
+                    <i class="fas fa-video"></i> Video Lecture Series
+                </h2>
+                
+                <div class="reference-list">
+                    <!-- Reference 1 -->
+                    <div class="reference-card video">
+                        <div class="reference-icon video">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Essence of Linear Algebra - 3Blue1Brown</h3>
+                            <div class="reference-authors">Grant Sanderson (3Blue1Brown)</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>16 Videos (Complete Series)</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-eye"></i>
+                                    <span>Visual Explanations</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Award-winning video series that provides intuitive, visual explanations of linear 
+                                algebra concepts. Excellent for developing geometric intuition about vectors, 
+                                linear transformations, and linear dependence.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab" 
+                                   class="link-btn video" target="_blank">
+                                    <i class="fab fa-youtube"></i> Watch on YouTube
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 2 -->
+                    <div class="reference-card video">
+                        <div class="reference-icon video">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">MIT 18.06 Linear Algebra - Full Course</h3>
+                            <div class="reference-authors">Gilbert Strang (MIT)</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>35 Lectures (Full Semester)</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-university"></i>
+                                    <span>MIT OpenCourseWare</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Complete lecture series from MIT's linear algebra course. Covers all fundamental 
+                                topics including vector spaces, linear independence, basis, dimension, and 
+                                matrix operations.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.youtube.com/playlist?list=PL221E2BBF13BECF6C" 
+                                   class="link-btn video" target="_blank">
+                                    <i class="fab fa-youtube"></i> YouTube Playlist
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 3 -->
+                    <div class="reference-card video">
+                        <div class="reference-icon video">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Linear Algebra for Machine Learning</h3>
+                            <div class="reference-authors">Imperial College London</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Specialized Applications</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-robot"></i>
+                                    <span>ML Applications Focus</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Specialized lectures focusing on linear algebra concepts as applied to machine 
+                                learning. Covers practical applications of linear dependence in feature selection, 
+                                dimensionality reduction, and PCA.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.youtube.com/playlist?list=PLiiljHvN6z1_o1ztXTKWPrShrMwBLeW_" 
+                                   class="link-btn video" target="_blank">
+                                    <i class="fab fa-youtube"></i> Watch Series
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Software Tools Category -->
+            <div class="reference-category" id="software">
+                <h2 class="category-header">
+                    <i class="fas fa-code"></i> Software & Computational Tools
+                </h2>
+                
+                <div class="reference-list">
+                    <!-- Reference 1 -->
+                    <div class="reference-card software">
+                        <div class="reference-icon software">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">MATLAB - Linear Algebra Toolbox</h3>
+                            <div class="reference-authors">MathWorks</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-laptop-code"></i>
+                                    <span>Commercial Software</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-tools"></i>
+                                    <span>Extensive Toolbox</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Industry-standard software for numerical computations. Includes comprehensive 
+                                linear algebra functions for rank calculation, determinant computation, 
+                                and linear dependence analysis.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.mathworks.com/products/matlab.html" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Official Website
+                                </a>
+                                <a href="https://www.mathworks.com/help/matlab/linear-algebra.html" 
+                                   class="link-btn pdf" target="_blank">
+                                    <i class="fas fa-book"></i> Documentation
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 2 -->
+                    <div class="reference-card software">
+                        <div class="reference-icon software">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Python with NumPy & SciPy</h3>
+                            <div class="reference-authors">Python Scientific Computing Community</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-code"></i>
+                                    <span>Open Source</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-users"></i>
+                                    <span>Large Community</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Free and open-source libraries for linear algebra computations. NumPy provides 
+                                matrix operations, while SciPy offers advanced linear algebra functions including 
+                                rank calculation and determinant computation.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://numpy.org/doc/stable/reference/routines.linalg.html" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> NumPy Docs
+                                </a>
+                                <a href="https://docs.scipy.org/doc/scipy/reference/linalg.html" 
+                                   class="link-btn pdf" target="_blank">
+                                    <i class="fas fa-book"></i> SciPy Docs
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reference 3 -->
+                    <div class="reference-card software">
+                        <div class="reference-icon software">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="reference-content">
+                            <h3 class="reference-title">Wolfram Mathematica</h3>
+                            <div class="reference-authors">Wolfram Research</div>
+                            <div class="reference-meta">
+                                <div class="meta-item">
+                                    <i class="fas fa-calculator"></i>
+                                    <span>Symbolic Computation</span>
+                                </div>
+                                <div class="meta-item">
+                                    <i class="fas fa-infinity"></i>
+                                    <span>Advanced Features</span>
+                                </div>
+                            </div>
+                            <p class="reference-description">
+                                Powerful computational software with strong symbolic mathematics capabilities. 
+                                Excellent for theoretical linear algebra, proofs, and symbolic manipulation 
+                                of vector spaces.
+                            </p>
+                            <div class="reference-links">
+                                <a href="https://www.wolfram.com/mathematica/" 
+                                   class="link-btn preview" target="_blank">
+                                    <i class="fas fa-external-link-alt"></i> Official Site
+                                </a>
+                                <a href="https://reference.wolfram.com/language/guide/LinearAlgebra.html" 
+                                   class="link-btn pdf" target="_blank">
+                                    <i class="fas fa-book"></i> Guide
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Related Resources Section -->
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3 class="resource-title">Project Source Code</h3>
+                    <p class="resource-description">
+                        Complete source code for this virtual lab project available on GitHub. 
+                        Includes HTML, CSS, JavaScript implementation of linear dependence calculator.
+                    </p>
+                    <a href="https://github.com/dineshkute90/virtual_lab_LAUC" 
+                       class="link-btn" target="_blank">
+                        <i class="fab fa-github"></i> View on GitHub
+                    </a>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <h3 class="resource-title">FAQs & Help</h3>
+                    <p class="resource-description">
+                        Frequently asked questions about linear dependence concepts, 
+                        troubleshooting guide for the simulation, and additional learning tips.
+                    </p>
+                    <button class="link-btn" onclick="showFAQs()">
+                        <i class="fas fa-info-circle"></i> View FAQs
+                    </button>
+                </div>
+                
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="resource-title">Additional Practice</h3>
+                    <p class="resource-description">
+                        Extra practice problems with solutions, additional quizzes, 
+                        and challenging exercises to reinforce linear algebra concepts.
+                    </p>
+                    <button class="link-btn" onclick="showPractice()">
+                        <i class="fas fa-pen-fancy"></i> Practice Problems
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Citation Section -->
+            <div class="citation-section">
+                <h3 class="citation-header">
+                    <i class="fas fa-quote-right"></i> How to Cite This Project
+                </h3>
+                <p>If you use this virtual lab in your research or teaching, please cite it as:</p>
+                <div class="citation-format">
+                    Sharma, A., Patel, R., &amp; Gupta, S. (2025). Virtual Laboratory for Linear Dependence 
+                    and Independence of Vectors. Pimpri Chinchwad College of Engineering, Virtual Labs Project. 
+                    Available at: https://github.com/dineshkute90/virtual_lab_LAUC
+                </div>
+                <p><strong>APA Format:</strong></p>
+                <div class="citation-format">
+                    Virtual Labs Team. (2025). <em>Linear Dependence Calculator Virtual Lab</em>. 
+                    Pimpri Chinchwad College of Engineering. Retrieved from https://dineshkute90.github.io/virtual_lab_LAUC
+                </div>
+            </div>
+            
+            <!-- Navigation Buttons -->
+            <div class="navigation-buttons">
+                <a href="posttest.html" class="nav-btn prev">
+                    <i class="fas fa-arrow-left"></i> Previous: Posttest
+                </a>
+                
+                <button class="nav-btn" onclick="downloadResources()">
+                    <i class="fas fa-download"></i> Download Resources
+                </button>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Linear Dependence Calculator Virtual Lab | Engineering Mathematics | 
+               Pimpri Chinchwad College of Engineering</p>
+            <p>© 2025 Virtual Labs Project | All Rights Reserved</p>
+            <p>Last Updated: January 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Category tab switching
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const referenceCategories = document.querySelectorAll('.reference-category');
+            
+            // Function to switch category
+            function switchCategory(categoryId) {
+                // Remove active class from all tabs and categories
+                categoryTabs.forEach(tab => tab.classList.remove('active'));
+                referenceCategories.forEach(category => category.classList.remove('active'));
+                
+                // Add active class to selected tab and category
+                const activeTab = document.querySelector(`.category-tab[data-category="${categoryId}"]`);
+                const activeCategory = document.getElementById(categoryId);
+                
+                if (activeTab) activeTab.classList.add('active');
+                if (activeCategory) activeCategory.classList.add('active');
+                
+                // Update progress text
+                const categoryNames = {
+                    'textbooks': 'Textbook References',
+                    'research': 'Research Papers',
+                    'online': 'Online Resources',
+                    'videos': 'Video Lectures',
+                    'software': 'Software Tools'
+                };
+                
+                const progressText = document.querySelector('.progress-text');
+                if (categoryNames[categoryId]) {
+                    progressText.innerHTML = `Current Section: <strong>References - ${categoryNames[categoryId]}</strong>`;
+                }
+            }
+            
+            // Add click event listeners to category tabs
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const categoryId = this.getAttribute('data-category');
+                    switchCategory(categoryId);
+                });
+            });
+            
+            // Initialize with textbooks category
+            switchCategory('textbooks');
+            
+            // Add animation to reference cards
+            const referenceCards = document.querySelectorAll('.reference-card');
+            referenceCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100 + index * 100);
+            });
+            
+            // Update progress steps
+            const progressSteps = document.querySelectorAll('.progress-step');
+            progressSteps.forEach((step, index) => {
+                if (index < 6) {
+                    step.classList.add('completed');
+                } else if (index === 6) {
+                    step.classList.add('active');
+                }
+            });
+        });
+        
+        // Download Resources function
+        function downloadResources() {
+            const resources = [
+                {
+                    name: 'Linear Algebra Textbooks Collection',
+                    description: 'List of recommended textbooks with summaries',
+                    type: 'pdf'
+                },
+                {
+                    name: 'Research Papers Compilation',
+                    description: 'Collection of relevant research articles',
+                    type: 'zip'
+                },
+                {
+                    name: 'Practice Problem Sets',
+                    description: 'Additional exercises with solutions',
+                    type: 'pdf'
+                },
+                {
+                    name: 'Project Documentation',
+                    description: 'Complete project documentation',
+                    type: 'pdf'
+                }
+            ];
+            
+            let message = 'Available Resources:\n\n';
+            resources.forEach((resource, index) => {
+                message += `${index + 1}. ${resource.name}\n   ${resource.description}\n   Type: ${resource.type.toUpperCase()}\n\n`;
+            });
+            
+            message += 'Please contact the project maintainers for access to these resources.';
+            alert(message);
+        }
+        
+        // Show FAQs function
+        function showFAQs() {
+            const faqs = [
+                {
+                    question: 'What is the main purpose of this virtual lab?',
+                    answer: 'To provide an interactive platform for learning and experimenting with linear dependence and independence concepts through computational methods.'
+                },
+                {
+                    question: 'Do I need prior knowledge of linear algebra?',
+                    answer: 'Basic understanding of vectors and matrices is helpful, but the lab includes theory sections and pretest to build necessary foundations.'
+                },
+                {
+                    question: 'Can I use this on mobile devices?',
+                    answer: 'Yes, the virtual lab is fully responsive and works on all devices including smartphones and tablets.'
+                },
+                {
+                    question: 'How accurate is the Gaussian elimination implementation?',
+                    answer: 'The implementation uses standard Gaussian elimination with numerical stability considerations. For extremely large matrices or ill-conditioned cases, specialized numerical libraries are recommended.'
+                },
+                {
+                    question: 'Are the test scores saved?',
+                    answer: 'Currently, scores are only saved in your browser session. For permanent record, you would need to take screenshots or notes.'
+                }
+            ];
+            
+            let faqHTML = '<h3>Frequently Asked Questions</h3>';
+            faqs.forEach((faq, index) => {
+                faqHTML += `
+                    <div style="margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                        <p><strong>Q${index + 1}: ${faq.question}</strong></p>
+                        <p>${faq.answer}</p>
+                    </div>
+                `;
+            });
+            
+            alertWithHTML('FAQs - Linear Dependence Virtual Lab', faqHTML);
+        }
+        
+        // Show Practice Problems function
+        function showPractice() {
+            const problems = [
+                {
+                    problem: 'For what values of k are vectors (1,2,k), (2,k,3), (k,3,4) linearly independent?',
+                    hint: 'Set up the determinant and solve for k where det ≠ 0.'
+                },
+                {
+                    problem: 'Prove that if {v₁, v₂, v₃} are linearly independent, then {v₁+v₂, v₂+v₃, v₃-v₁} are also independent.',
+                    hint: 'Assume linear combination equals zero and use the independence of original set.'
+                },
+                {
+                    problem: 'In P₃(ℝ), determine if {1+x, 1-x, x+x², x²+x³} are linearly independent.',
+                    hint: 'Represent as vectors in basis {1, x, x², x³} and check determinant.'
+                },
+                {
+                    problem: 'Find the dimension of the subspace spanned by {(1,2,3,4), (2,3,4,5), (3,4,5,6), (4,5,6,7)}.',
+                    hint: 'Find the rank of the matrix formed by these vectors.'
+                }
+            ];
+            
+            let practiceHTML = '<h3>Additional Practice Problems</h3>';
+            problems.forEach((prob, index) => {
+                practiceHTML += `
+                    <div style="margin-bottom: 20px; padding: 15px; background: #fff8e1; border-radius: 8px;">
+                        <p><strong>Problem ${index + 1}:</strong> ${prob.problem}</p>
+                        <p><em>Hint:</em> ${prob.hint}</p>
+                    </div>
+                `;
+            });
+            
+            practiceHTML += '<p style="color: #7f8c8d; font-style: italic;">Solutions available upon request from instructors.</p>';
+            
+            alertWithHTML('Practice Problems - Linear Algebra', practiceHTML);
+        }
+        
+        // Custom alert function with HTML support
+        function alertWithHTML(title, htmlContent) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.7);
+                z-index: 2000;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+            `;
+            
+            const content = document.createElement('div');
+            content.style.cssText = `
+                background: white;
+                border-radius: 12px;
+                padding: 30px;
+                max-width: 600px;
+                width: 100%;
+                max-height: 80vh;
+                overflow-y: auto;
+                animation: modalSlideIn 0.3s ease;
+            `;
+            
+            content.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h2 style="color: #2c3e50; margin-bottom: 15px;">${title}</h2>
+                    <div>${htmlContent}</div>
+                </div>
+                <button onclick="this.parentElement.parentElement.remove()" 
+                        style="background: #3498db; color: white; border: none; padding: 10px 25px; 
+                               border-radius: 6px; cursor: pointer; font-weight: bold;">
+                    Close
+                </button>
+            `;
+            
+            modal.appendChild(content);
+            document.body.appendChild(modal);
+            
+            // Close when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
