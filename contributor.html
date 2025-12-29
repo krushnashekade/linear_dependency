@@ -216,10 +216,10 @@
             gap: 10px;
         }
 
-        /* Contributor Cards Grid */
+        /* Contributor Cards Grid - 2 CARDS PER ROW ON DESKTOP */
         .contributors-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -232,6 +232,9 @@
             border-left: 5px solid #3498db;
             position: relative;
             overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .contributor-card:hover {
@@ -275,6 +278,72 @@
             background: #f39c12;
         }
 
+        /* Contributor Photo Section */
+        .contributor-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .contributor-photo-container {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .contributor-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #3498db;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .contributor-card:hover .contributor-photo {
+            border-color: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .contributor-card.lead .contributor-photo {
+            border-color: #2ecc71;
+        }
+
+        .contributor-card.guide .contributor-photo {
+            border-color: #9b59b6;
+        }
+
+        .contributor-card.hod .contributor-photo {
+            border-color: #f39c12;
+        }
+
+        .photo-placeholder {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #3498db;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contributor-card.lead .photo-placeholder {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            border-color: #2ecc71;
+        }
+
+        .contributor-card.guide .photo-placeholder {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            border-color: #9b59b6;
+        }
+
+        .contributor-info {
+            flex-grow: 1;
+        }
+
         .contributor-name {
             color: #2c3e50;
             font-size: 1.4rem;
@@ -297,6 +366,7 @@
             color: #3498db;
             margin-top: 3px;
             flex-shrink: 0;
+            width: 16px;
         }
 
         .detail-label {
@@ -311,6 +381,7 @@
             border-top: 1px dashed #dee2e6;
             color: #5d6d7e;
             font-style: italic;
+            flex-grow: 1;
         }
 
         /* Faculty Section */
@@ -318,6 +389,62 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 25px;
+        }
+
+        /* Admin Controls (for backend integration) */
+        .admin-controls {
+            background: #f8f9fa;
+            border: 2px dashed #3498db;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+            display: none;
+        }
+
+        .admin-controls.show {
+            display: block;
+        }
+
+        .admin-title {
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .photo-upload-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .upload-btn {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .upload-btn:hover {
+            background: #2980b9;
+        }
+
+        .photo-url-input {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            min-width: 250px;
         }
 
         /* Navigation Buttons */
@@ -418,7 +545,22 @@
             }
             
             .contributors-grid {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .contributor-header {
+                gap: 15px;
+            }
+            
+            .contributor-photo {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .photo-placeholder {
+                width: 90px;
+                height: 90px;
             }
         }
 
@@ -445,6 +587,7 @@
             
             .contributors-grid {
                 grid-template-columns: 1fr;
+                gap: 20px;
             }
             
             .faculty-grid {
@@ -459,6 +602,16 @@
             .nav-btn {
                 width: 100%;
                 justify-content: center;
+            }
+            
+            .contributor-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .photo-url-input {
+                min-width: 200px;
             }
         }
 
@@ -484,6 +637,43 @@
             
             .detail-label {
                 min-width: auto;
+            }
+            
+            .photo-upload-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .photo-url-input {
+                width: 100%;
+            }
+            
+            .contributor-photo {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .photo-placeholder {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        /* For very large screens */
+        @media (min-width: 1400px) {
+            .contributors-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+            
+            .contributor-photo {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .photo-placeholder {
+                width: 120px;
+                height: 120px;
             }
         }
     </style>
@@ -580,109 +770,196 @@
                     <p>This virtual lab project was developed by undergraduate students from the Engineering Mathematics course as part of their curriculum project work. The team worked collaboratively to design, develop, and implement all components of this interactive learning platform.</p>
                 </div>
                 
+                <!-- 2x2 Grid: 2 team members per row -->
                 <div class="contributors-grid">
-                    <!-- Student 1 -->
+                    <!-- Row 1: Student 1 & 2 -->
                     <div class="contributor-card lead">
                         <div class="contributor-role">Team Member</div>
-                        <h3 class="contributor-name">Krushna Shekade</h3>
-                        <div class="contributor-details">
-                            <div class="detail-item">
-                                <i class="fas fa-id-card"></i>
-                                <span class="detail-label">PRN:</span>
-                                <span>125B1F178</span>
+                        <div class="contributor-header">
+                            <div class="contributor-photo-container">
+                                <img src="krushna.jpeg" alt="Krushna Shekade" class="contributor-photo" data-photo-id="krushna-shekade" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-envelope"></i>
-                                <span class="detail-label">Email:</span>
-                                <span>krushna.shekade25@pccoepune.org</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-book"></i>
-                                <span class="detail-label">Course:</span>
-                                <span>Engineering Mathematics</span>
+                            <div class="contributor-info">
+                                <h3 class="contributor-name">Krushna Shekade</h3>
+                                <div class="contributor-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-id-card"></i>
+                                        <span class="detail-label">PRN:</span>
+                                        <span>125B1F178</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span class="detail-label">Email:</span>
+                                        <span>krushna.shekade25@pccoepune.org</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-book"></i>
+                                        <span class="detail-label">Course:</span>
+                                        <span>Engineering Mathematics</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p class="contributor-bio">
                             Contributed to algorithm implementation and simulation development.
                         </p>
+                        <div class="admin-controls" id="admin-krushna">
+                            <div class="admin-title">
+                                <i class="fas fa-cog"></i> Admin: Update Photo
+                            </div>
+                            <div class="photo-upload-container">
+                                <input type="text" class="photo-url-input" placeholder="Enter image URL for Krushna Shekade" data-id="krushna-shekade">
+                                <button class="upload-btn" onclick="updatePhoto('krushna-shekade')">
+                                    <i class="fas fa-upload"></i> Update Photo
+                                </button>
+                                <button class="upload-btn" style="background: #e74c3c;" onclick="removePhoto('krushna-shekade')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
-                    <!-- Student 2 -->
                     <div class="contributor-card">
                         <div class="contributor-role">Team Member</div>
-                        <h3 class="contributor-name">Vedant Kulkarni</h3>
-                        <div class="contributor-details">
-                            <div class="detail-item">
-                                <i class="fas fa-id-card"></i>
-                                <span class="detail-label">PRN:</span>
-                                <span>125B1F183</span>
+                        <div class="contributor-header">
+                            <div class="contributor-photo-container">
+                                <img src="vedant image.jpeg" alt="Vedant Kulkarni" class="contributor-photo" data-photo-id="vedant-kulkarni" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-envelope"></i>
-                                <span class="detail-label">Email:</span>
-                                <span>vedant.kulkarni25@pccoepune.org</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-book"></i>
-                                <span class="detail-label">Course:</span>
-                                <span>Engineering Mathematics</span>
+                            <div class="contributor-info">
+                                <h3 class="contributor-name">Vedant Kulkarni</h3>
+                                <div class="contributor-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-id-card"></i>
+                                        <span class="detail-label">PRN:</span>
+                                        <span>125B1F183</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span class="detail-label">Email:</span>
+                                        <span>vedant.kulkarni25@pccoepune.org</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-book"></i>
+                                        <span class="detail-label">Course:</span>
+                                        <span>Engineering Mathematics</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p class="contributor-bio">
                             Worked on user interface design and interactive components.
                         </p>
+                        <div class="admin-controls" id="admin-vedant">
+                            <div class="admin-title">
+                                <i class="fas fa-cog"></i> Admin: Update Photo
+                            </div>
+                            <div class="photo-upload-container">
+                                <input type="text" class="photo-url-input" placeholder="Enter image URL for Vedant Kulkarni" data-id="vedant-kulkarni">
+                                <button class="upload-btn" onclick="updatePhoto('vedant-kulkarni')">
+                                    <i class="fas fa-upload"></i> Update Photo
+                                </button>
+                                <button class="upload-btn" style="background: #e74c3c;" onclick="removePhoto('vedant-kulkarni')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
-                    <!-- Student 3 -->
+                    <!-- Row 2: Student 3 & 4 -->
                     <div class="contributor-card">
                         <div class="contributor-role">Team Member</div>
-                        <h3 class="contributor-name">Sangam Gupta</h3>
-                        <div class="contributor-details">
-                            <div class="detail-item">
-                                <i class="fas fa-id-card"></i>
-                                <span class="detail-label">PRN:</span>
-                                <span>125B1F191</span>
+                        <div class="contributor-header">
+                            <div class="contributor-photo-container">
+                                <img src="" alt="Sangam Gupta" class="contributor-photo" data-photo-id="sangam-gupta" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                <div class="photo-placeholder" style="display: flex;"></div>
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-envelope"></i>
-                                <span class="detail-label">Email:</span>
-                                <span>sangam.gupta25@pccoepune.org</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-book"></i>
-                                <span class="detail-label">Course:</span>
-                                <span>Engineering Mathematics</span>
+                            <div class="contributor-info">
+                                <h3 class="contributor-name">Sangam Gupta</h3>
+                                <div class="contributor-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-id-card"></i>
+                                        <span class="detail-label">PRN:</span>
+                                        <span>125B1F191</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span class="detail-label">Email:</span>
+                                        <span>sangam.gupta25@pccoepune.org</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-book"></i>
+                                        <span class="detail-label">Course:</span>
+                                        <span>Engineering Mathematics</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p class="contributor-bio">
                             Focused on content development and testing procedures.
                         </p>
+                        <div class="admin-controls" id="admin-sangam">
+                            <div class="admin-title">
+                                <i class="fas fa-cog"></i> Admin: Update Photo
+                            </div>
+                            <div class="photo-upload-container">
+                                <input type="text" class="photo-url-input" placeholder="Enter image URL for Sangam Gupta" data-id="sangam-gupta">
+                                <button class="upload-btn" onclick="updatePhoto('sangam-gupta')">
+                                    <i class="fas fa-upload"></i> Update Photo
+                                </button>
+                                <button class="upload-btn" style="background: #e74c3c;" onclick="removePhoto('sangam-gupta')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
-                    <!-- Student 4 -->
                     <div class="contributor-card">
                         <div class="contributor-role">Team Member</div>
-                        <h3 class="contributor-name">Atharva Jankar</h3>
-                        <div class="contributor-details">
-                            <div class="detail-item">
-                                <i class="fas fa-id-card"></i>
-                                <span class="detail-label">PRN:</span>
-                                <span>125B1F184</span>
+                        <div class="contributor-header">
+                            <div class="contributor-photo-container">
+                                <img src="atharva image.jpeg" alt="Atharva Jankar" class="contributor-photo" data-photo-id="atharva-jankar" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-envelope"></i>
-                                <span class="detail-label">Email:</span>
-                                <span>atharva.jankar25@pccoepune.org</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-book"></i>
-                                <span class="detail-label">Course:</span>
-                                <span>Engineering Mathematics</span>
+                            <div class="contributor-info">
+                                <h3 class="contributor-name">Atharva Jankar</h3>
+                                <div class="contributor-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-id-card"></i>
+                                        <span class="detail-label">PRN:</span>
+                                        <span>125B1F184</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span class="detail-label">Email:</span>
+                                        <span>atharva.jankar25@pccoepune.org</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-book"></i>
+                                        <span class="detail-label">Course:</span>
+                                        <span>Engineering Mathematics</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p class="contributor-bio">
                             Responsible for documentation and integration testing.
                         </p>
+                        <div class="admin-controls" id="admin-atharva">
+                            <div class="admin-title">
+                                <i class="fas fa-cog"></i> Admin: Update Photo
+                            </div>
+                            <div class="photo-upload-container">
+                                <input type="text" class="photo-url-input" placeholder="Enter image URL for Atharva Jankar" data-id="atharva-jankar">
+                                <button class="upload-btn" onclick="updatePhoto('atharva-jankar')">
+                                    <i class="fas fa-upload"></i> Update Photo
+                                </button>
+                                <button class="upload-btn" style="background: #e74c3c;" onclick="removePhoto('atharva-jankar')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -694,56 +971,51 @@
                 </h2>
                 
                 <div class="faculty-grid">
-                    <!-- Project Guide -->
                     <div class="contributor-card guide">
                         <div class="contributor-role">Project Guide</div>
-                        <h3 class="contributor-name">Prof. Dinesh Kute</h3>
-                        <div class="contributor-details">
-                            <div class="detail-item">
-                                <i class="fas fa-envelope"></i>
-                                <span class="detail-label">Email:</span>
-                                <span>dinesh.kute@pccoepune.org</span>
+                        <div class="contributor-header">
+                            <div class="contributor-photo-container">
+                                <img src="dinesh kute.jpg" alt="Prof. Dinesh Kute" class="contributor-photo" data-photo-id="dinesh-kute" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                                
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-graduation-cap"></i>
-                                <span class="detail-label">Department:</span>
-                                <span>Applied Sciences & Humanities</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-book"></i>
-                                <span class="detail-label">Subject:</span>
-                                <span>Engineering Mathematics</span>
+                            <div class="contributor-info">
+                                <h3 class="contributor-name">Prof. Dinesh Kute</h3>
+                                <div class="contributor-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-envelope"></i>
+                                        <span class="detail-label">Email:</span>
+                                        <span>dinesh.kute@pccoepune.org</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-graduation-cap"></i>
+                                        <span class="detail-label">Department:</span>
+                                        <span>Applied Sciences & Humanities</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-book"></i>
+                                        <span class="detail-label">Subject:</span>
+                                        <span>Engineering Mathematics</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <p class="contributor-bio">
                             Provided guidance, technical support, and academic supervision throughout the project development. Mentored the team in implementing mathematical algorithms and educational pedagogy.
                         </p>
-                    </div>
-                    
-                    <!-- Head of Department -->
-                    <div class="contributor-card hod">
-                        <div class="contributor-role">Head of Department</div>
-                        <h3 class="contributor-name">Prof. Leena Sharma</h3>
-                        <div class="contributor-details">
-                            <div class="detail-item">
-                                <i class="fas fa-envelope"></i>
-                                <span class="detail-label">Email:</span>
-                                <span>leena.sharma@pccoepune.org</span>
+                        <div class="admin-controls" id="admin-dinesh">
+                            <div class="admin-title">
+                                <i class="fas fa-cog"></i> Admin: Update Photo
                             </div>
-                            <div class="detail-item">
-                                <i class="fas fa-graduation-cap"></i>
-                                <span class="detail-label">Department:</span>
-                                <span>Applied Sciences & Humanities</span>
-                            </div>
-                            <div class="detail-item">
-                                <i class="fas fa-university"></i>
-                                <span class="detail-label">Position:</span>
-                                <span>Head of Department</span>
+                            <div class="photo-upload-container">
+                                <input type="text" class="photo-url-input" placeholder="Enter image URL for Prof. Dinesh Kute" data-id="dinesh-kute">
+                                <button class="upload-btn" onclick="updatePhoto('dinesh-kute')">
+                                    <i class="fas fa-upload"></i> Update Photo
+                                </button>
+                                <button class="upload-btn" style="background: #e74c3c;" onclick="removePhoto('dinesh-kute')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
                             </div>
                         </div>
-                        <p class="contributor-bio">
-                            Provided administrative support and resources for the virtual lab project. Oversees the curriculum integration and quality assurance of educational technology initiatives in the department.
-                        </p>
                     </div>
                 </div>
             </div>
@@ -777,6 +1049,17 @@
                 </div>
             </div>
             
+            <!-- Admin Mode Toggle -->
+            <div class="info-box" id="admin-toggle-section" style="display: none;">
+                <div class="info-title">
+                    <i class="fas fa-user-shield"></i> Administrator Mode
+                </div>
+                <p>You are in administrator mode. Use the controls below each contributor card to manage photos.</p>
+                <button class="nav-btn" onclick="toggleAdminMode(false)">
+                    <i class="fas fa-sign-out-alt"></i> Exit Admin Mode
+                </button>
+            </div>
+            
             <!-- Navigation Buttons -->
             <div class="navigation-buttons">
                 <a href="feedback.html" class="nav-btn prev">
@@ -798,6 +1081,19 @@
     </div>
 
     <script>
+        // Photo data structure
+        const contributorPhotos = {
+            'krushna-shekade': '',
+            'vedant-kulkarni': '',
+            'sangam-gupta': '',
+            'atharva-jankar': '',
+            'dinesh-kute': ''
+        };
+
+        // Check if admin mode is enabled
+        const urlParams = new URLSearchParams(window.location.search);
+        const isAdminMode = urlParams.get('admin') === 'true';
+
         // Update progress indicator
         document.addEventListener('DOMContentLoaded', function() {
             // Update progress steps
@@ -809,6 +1105,14 @@
                     step.classList.add('active');
                 }
             });
+            
+            // Load contributor photos
+            loadContributorPhotos();
+            
+            // Show/hide admin controls
+            if (isAdminMode) {
+                showAdminControls();
+            }
             
             // Add animation to contributor cards
             const contributorCards = document.querySelectorAll('.contributor-card');
@@ -870,6 +1174,133 @@
                 });
             });
         });
+
+        // Function to load contributor photos
+        function loadContributorPhotos() {
+            const savedPhotos = localStorage.getItem('contributorPhotos');
+            if (savedPhotos) {
+                Object.assign(contributorPhotos, JSON.parse(savedPhotos));
+            }
+            
+            Object.keys(contributorPhotos).forEach(contributorId => {
+                const photoUrl = contributorPhotos[contributorId];
+                if (photoUrl) {
+                    const imgElement = document.querySelector(`img[data-photo-id="${contributorId}"]`);
+                    const placeholderElement = imgElement.nextElementSibling;
+                    
+                    if (imgElement) {
+                        imgElement.src = photoUrl;
+                        imgElement.style.display = 'block';
+                        placeholderElement.style.display = 'none';
+                        
+                        const testImage = new Image();
+                        testImage.onload = function() {
+                            imgElement.style.display = 'block';
+                            placeholderElement.style.display = 'none';
+                        };
+                        testImage.onerror = function() {
+                            imgElement.style.display = 'none';
+                            placeholderElement.style.display = 'flex';
+                        };
+                        testImage.src = photoUrl;
+                    }
+                }
+            });
+        }
+
+        // Function to update a contributor's photo
+        function updatePhoto(contributorId) {
+            const inputElement = document.querySelector(`input[data-id="${contributorId}"]`);
+            const photoUrl = inputElement.value.trim();
+            
+            if (!photoUrl) {
+                alert('Please enter a valid image URL');
+                return;
+            }
+            
+            try {
+                new URL(photoUrl);
+            } catch (e) {
+                alert('Please enter a valid URL (include http:// or https://)');
+                return;
+            }
+            
+            const testImage = new Image();
+            testImage.onload = function() {
+                contributorPhotos[contributorId] = photoUrl;
+                localStorage.setItem('contributorPhotos', JSON.stringify(contributorPhotos));
+                
+                const imgElement = document.querySelector(`img[data-photo-id="${contributorId}"]`);
+                const placeholderElement = imgElement.nextElementSibling;
+                
+                imgElement.src = photoUrl;
+                imgElement.style.display = 'block';
+                placeholderElement.style.display = 'none';
+                
+                inputElement.value = '';
+                alert(`Photo updated for ${getContributorName(contributorId)}`);
+            };
+            
+            testImage.onerror = function() {
+                alert('The image URL is not valid or the image cannot be loaded. Please check the URL.');
+            };
+            
+            testImage.src = photoUrl;
+        }
+
+        // Function to remove a contributor's photo
+        function removePhoto(contributorId) {
+            if (confirm(`Are you sure you want to remove the photo for ${getContributorName(contributorId)}?`)) {
+                contributorPhotos[contributorId] = '';
+                localStorage.setItem('contributorPhotos', JSON.stringify(contributorPhotos));
+                
+                const imgElement = document.querySelector(`img[data-photo-id="${contributorId}"]`);
+                const placeholderElement = imgElement.nextElementSibling;
+                
+                imgElement.src = '';
+                imgElement.style.display = 'none';
+                placeholderElement.style.display = 'flex';
+                
+                const inputElement = document.querySelector(`input[data-id="${contributorId}"]`);
+                inputElement.value = '';
+                
+                alert(`Photo removed for ${getContributorName(contributorId)}`);
+            }
+        }
+
+        // Helper function to get contributor name from ID
+        function getContributorName(contributorId) {
+            const nameMap = {
+                'krushna-shekade': 'Krushna Shekade',
+                'vedant-kulkarni': 'Vedant Kulkarni',
+                'sangam-gupta': 'Sangam Gupta',
+                'atharva-jankar': 'Atharva Jankar',
+                'dinesh-kute': 'Prof. Dinesh Kute'
+            };
+            return nameMap[contributorId] || contributorId;
+        }
+
+        // Function to show/hide admin controls
+        function showAdminControls() {
+            const adminControls = document.querySelectorAll('.admin-controls');
+            adminControls.forEach(control => {
+                control.classList.add('show');
+            });
+            
+            const adminToggleSection = document.getElementById('admin-toggle-section');
+            if (adminToggleSection) {
+                adminToggleSection.style.display = 'block';
+            }
+        }
+
+        // Function to toggle admin mode
+        function toggleAdminMode(enable) {
+            if (enable) {
+                window.location.href = window.location.pathname + '?admin=true';
+            } else {
+                window.location.href = window.location.pathname;
+            }
+        }
     </script>
 </body>
 </html>
